@@ -1,0 +1,276 @@
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 1000;
+
+    padding: 20px;
+
+}
+
+.hospital-information-modal {
+
+    width: 100%;
+
+    max-width: 650px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+
+    animation: modalFade .25s ease;
+
+}
+
+@keyframes modalFade {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+.modal-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px 24px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+}
+
+.modal-header h2 {
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    color: #111827;
+
+}
+
+.close-btn {
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #f3f4f6;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+}
+
+.close-btn:hover {
+
+    background: #e5e7eb;
+
+}
+
+.hospital-information-modal form {
+
+    padding: 24px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+
+}
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+.form-group label {
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    color: #374151;
+
+}
+
+.form-group input,
+.form-group textarea {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: .25s;
+
+    resize: vertical;
+
+    font-family: inherit;
+
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+
+    border-color: #4f46e5;
+
+    box-shadow: 0 0 0 3px rgba(79,70,229,.15);
+
+}
+
+.form-group.address {
+
+    grid-column: 1 / -1;
+
+}
+
+.modal-actions {
+
+    grid-column: 1 / -1;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 10px;
+
+}
+
+.cancel-btn {
+
+    padding: 12px 22px;
+
+    border: 1px solid #d1d5db;
+
+    background: white;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: 500;
+
+    transition: .25s;
+
+}
+
+.cancel-btn:hover {
+
+    background: #f9fafb;
+
+}
+
+.save-btn {
+
+    padding: 12px 22px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+}
+
+.save-btn:hover {
+
+    background: #4338ca;
+
+}
+
+@media (max-width:768px){
+
+    .hospital-information-modal form{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.address{
+
+        grid-column:auto;
+
+    }
+
+    .modal-actions{
+
+        grid-column:auto;
+
+        flex-direction:column-reverse;
+
+    }
+
+    .cancel-btn,
+    .save-btn{
+
+        width:100%;
+
+    }
+
+}

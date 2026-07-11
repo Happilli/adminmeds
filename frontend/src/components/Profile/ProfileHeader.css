@@ -1,0 +1,223 @@
+.profile-header{
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    gap:35px;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+
+}
+
+.edit-profile-btn{
+
+    position:absolute;
+
+    top:25px;
+    right:25px;
+
+    width:42px;
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#EEF2FF;
+
+    color:#4F46E5;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-size:18px;
+
+}
+
+.edit-profile-btn:hover{
+
+    background:#4F46E5;
+    color:white;
+
+}
+
+.profile-avatar{
+
+    position:relative;
+
+    width:140px;
+    height:140px;
+
+}
+
+.profile-avatar img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:5px solid #EEF2FF;
+
+}
+
+.camera-btn{
+
+    position:absolute;
+
+    bottom:8px;
+    right:8px;
+
+    width:38px;
+    height:38px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#4F46E5;
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+.profile-right{
+
+    flex:1;
+
+}
+
+.profile-right h2{
+
+    font-size:30px;
+
+    color:#1f2937;
+
+    margin-bottom:10px;
+
+}
+
+.role-badge{
+
+    display:inline-block;
+
+    background:#DCFCE7;
+
+    color:#15803D;
+
+    padding:7px 16px;
+
+    border-radius:25px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:28px;
+
+}
+
+.profile-info{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:22px;
+
+}
+
+.info-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:15px;
+
+}
+
+.info-item svg{
+
+    width:42px;
+    height:42px;
+
+    background:#EEF2FF;
+
+    color:#4F46E5;
+
+    border-radius:12px;
+
+    padding:10px;
+
+    font-size:20px;
+
+    flex-shrink:0;
+
+}
+
+.info-item small{
+
+    color:#6B7280;
+
+    display:block;
+
+    margin-bottom:4px;
+
+}
+
+.info-item p{
+
+    font-size:16px;
+
+    color:#1F2937;
+
+    font-weight:600;
+
+}
+
+@media(max-width:900px){
+
+.profile-header{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.profile-info{
+
+    grid-template-columns:1fr;
+
+}
+
+.info-item{
+
+    justify-content:center;
+
+}
+
+}

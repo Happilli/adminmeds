@@ -1,0 +1,22 @@
+.appointment-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.appointment-title h1 {
+  font-size: 28px;
+  color: #1f2937;
+  margin-bottom: 6px;
+}
+
+.appointment-title p {
+  color: #6b7280;
+  font-size: 14px;
+}
