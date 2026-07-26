@@ -1,400 +1,254 @@
-/* ===============================
-   MODAL OVERLAY
-================================= */
-
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.55);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-    z-index: 1000;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 1000;
 }
 
-
-/* ===============================
-   MODAL CONTAINER
-================================= */
-
-.doctor-modal {
-
-    width: 100%;
-    max-width: 1000px;
-    max-height: 90vh;
-
-    background: #ffffff;
-
-    border-radius: 18px;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
-
+.add-doctor-modal {
+  width: 900px;
+  max-width: 100%;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow-y: auto;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
 }
-
-
-/* ===============================
-   HEADER
-================================= */
 
 .modal-header {
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 24px 30px;
-
-    border-bottom: 1px solid #e5e7eb;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 10;
 }
 
 .modal-header h2 {
-
-    margin: 0;
-
-    font-size: 24px;
-
-    color: #111827;
-
-    font-weight: 700;
-
+  margin: 0;
+  font-size: 22px;
+  color: #1f2937;
 }
-
-.modal-header p {
-
-    margin-top: 6px;
-
-    font-size: 14px;
-
-    color: #6b7280;
-
-}
-
-
-/* ===============================
-   CLOSE BUTTON
-================================= */
 
 .close-btn {
-
-    width: 42px;
-    height: 42px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: #f3f4f6;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-
-    transition: .2s;
-
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .2s;
 }
 
 .close-btn:hover {
-
-    background: #e5e7eb;
-
+  background: #e5e7eb;
 }
 
-
-/* ===============================
-   BODY
-================================= */
-
-.modal-body {
-
-    flex: 1;
-
-    overflow-y: auto;
-
-    padding: 30px;
-
+form {
+  padding: 28px;
 }
 
+.doctor-photo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
 
-/* ===============================
-   FORM SECTIONS
-================================= */
+.doctor-photo-preview {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #eef2ff;
+  margin-bottom: 16px;
+}
+
+.doctor-photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-photo-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: .2s;
+}
+
+.upload-photo-btn:hover {
+  background: #1d4ed8;
+}
+
+.doctor-photo-section small {
+  margin-top: 8px;
+  color: #6b7280;
+}
 
 .form-section {
-
-    margin-bottom: 40px;
-
-}
-
-.form-section:last-child {
-
-    margin-bottom: 0;
-
+  margin-bottom: 36px;
 }
 
 .form-section h3 {
-
-    margin-bottom: 6px;
-
-    font-size: 20px;
-
-    color: #111827;
-
+  margin-bottom: 20px;
+  color: #111827;
+  font-size: 18px;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
 }
-
-.section-description {
-
-    color: #6b7280;
-
-    font-size: 14px;
-
-    margin-bottom: 24px;
-
-}
-
-
-/* ===============================
-   GRID
-================================= */
 
 .form-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 22px;
-
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
 }
 
-
-/* ===============================
-   FORM GROUP
-================================= */
-
 .form-group {
-
-    display: flex;
-
-    flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 }
 
 .full-width {
-
-    grid-column: 1 / -1;
-
+  grid-column: span 2;
 }
-
-
-/* ===============================
-   LABEL
-================================= */
 
 .form-group label {
-
-    margin-bottom: 8px;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    color: #374151;
-
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
 }
-
-.form-group span {
-
-    color: #ef4444;
-
-}
-
-
-/* ===============================
-   INPUTS
-================================= */
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-
-    width: 100%;
-
-    padding: 12px 14px;
-
-    font-size: 14px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 10px;
-
-    outline: none;
-
-    transition: .2s;
-
-    background: #ffffff;
-
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: .2s;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-
-    border-color: #2563eb;
-
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
-
+  border-color: #2563eb;
 }
 
 .form-group textarea {
-
-    resize: vertical;
-
-    min-height: 110px;
-
+  resize: vertical;
 }
 
-
-/* ===============================
-   FILE INPUT
-================================= */
-
-.file-upload {
-
-    border: 2px dashed #d1d5db;
-
-    border-radius: 12px;
-
-    padding: 20px;
-
-    background: #f9fafb;
-
+.password-input {
+  position: relative;
 }
 
-.file-upload input {
-
-    border: none;
-
-    padding: 0;
-
-    background: transparent;
-
-    box-shadow: none;
-
+.password-input input {
+  width: 100%;
+  padding-right: 50px;
 }
 
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
 
-/* ===============================
-   FOOTER
-================================= */
+.working-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.day-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.day-checkbox input {
+  cursor: pointer;
+}
 
 .modal-footer {
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 14px;
-
-    padding: 20px 30px;
-
-    border-top: 1px solid #e5e7eb;
-
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
 }
-
-
-/* ===============================
-   BUTTONS
-================================= */
 
 .cancel-btn,
 .save-btn {
-
-    padding: 12px 24px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: .2s;
-
+  padding: 12px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .2s;
 }
 
 .cancel-btn {
-
-    background: #ffffff;
-
-    color: #374151;
-
-    border: 1px solid #d1d5db;
-
+  background: #f3f4f6;
 }
 
 .cancel-btn:hover {
-
-    background: #f3f4f6;
-
+  background: #e5e7eb;
 }
 
 .save-btn {
-
-    background: #2563eb;
-
-    color: white;
-
-    border: none;
-
+  background: #2563eb;
+  color: white;
 }
 
 .save-btn:hover {
-
-    background: #1d4ed8;
-
-}
-
-
-/* ===============================
-   RESPONSIVE
-================================= */
-
-@media (max-width: 900px) {
-
-    .doctor-modal {
-
-        max-width: 95%;
-
-    }
-
-    .form-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
+  background: #1d4ed8;
 }
 
 @media (max-width: 768px) {
 
-    .modal-header,
-    .modal-body,
-    .modal-footer {
+  .add-doctor-modal {
+    width: 100%;
+  }
 
-        padding: 20px;
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 
-    }
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+  }
 
 }

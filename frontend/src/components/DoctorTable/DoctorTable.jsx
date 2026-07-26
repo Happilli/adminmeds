@@ -1,23 +1,16 @@
 import "./DoctorTable.css";
 
-import { useState } from "react";
-
-import doctors from "../../data/doctors";
-
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-function DoctorTable() {
-
-  const [search, setSearch] = useState("");
-
-  const filteredDoctors = doctors.filter((doctor) =>
-    doctor.name.toLowerCase().includes(search.toLowerCase()) ||
-    doctor.specialization.toLowerCase().includes(search.toLowerCase())
-  );
+function DoctorTable({
+  doctors,
+  search,
+  setSearch,
+}) {
 
   return (
 
@@ -61,7 +54,7 @@ function DoctorTable() {
 
         <tbody>
 
-          {filteredDoctors.map((doctor) => (
+          {doctors.map((doctor) => (
 
             <tr key={doctor.id}>
 
@@ -108,24 +101,18 @@ function DoctorTable() {
                 <div className="action-buttons">
 
                   <button title="View">
-
                     <VisibilityOutlinedIcon fontSize="small" />
-
                   </button>
 
                   <button title="Edit">
-
                     <EditOutlinedIcon fontSize="small" />
-
                   </button>
 
                   <button
                     className="delete"
                     title="Delete"
                   >
-
                     <DeleteOutlineOutlinedIcon fontSize="small" />
-
                   </button>
 
                 </div>
@@ -139,28 +126,6 @@ function DoctorTable() {
         </tbody>
 
       </table>
-
-      <div className="doctor-table-footer">
-
-        <p>
-          Showing {filteredDoctors.length} doctor{filteredDoctors.length !== 1 ? "s" : ""}
-        </p>
-
-        <div className="pagination">
-
-          <button>{"<"}</button>
-
-          <button className="active">
-            1
-          </button>
-
-          <button>2</button>
-
-          <button>{">"}</button>
-
-        </div>
-
-      </div>
 
     </div>
 

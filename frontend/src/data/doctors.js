@@ -38,6 +38,24 @@ specialization:"Oncologist",
 experience:10,
 phone:"+1 555-774-1234",
 status:"Active"
+},
+{
+id:5,
+name:"Dr. Sarah Chen",
+email:"s.chen@medisync.health",
+specialization:"Oncologist",
+experience:10,
+phone:"+1 555-774-1234",
+status:"Active"
+},
+{
+id:6,
+name:"Dr. Sarah Chen",
+email:"s.chen@medisync.health",
+specialization:"Oncologist",
+experience:10,
+phone:"+1 555-774-1234",
+status:"Active"
 }
 
 ];

@@ -1,291 +1,531 @@
-import { useState } from "react";
 import "./AddDoctorModal.css";
+
+import { useState } from "react";
+
 import CloseIcon from "@mui/icons-material/Close";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
-function AddDoctorModal({ open, onClose }) {
+function AddDoctorModal({ onSave, onClose }) {
 
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    gender: "",
+    date_of_birth: "",
+    department: "",
+    specialization: "",
+    medical_license_number: "",
+    years_of_experience: "",
+    qualification: "",
+    address: "",
+    username: "",
+    temporary_password: "",
+    working_days: [],
+    shift: "Morning",
+    appointment_duration: 30,
+  });
 
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        gender: "",
-        dob: "",
-        address: "",
-        profilePicture: null,
+  const [showPassword, setShowPassword] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const departments = [
+    "Cardiology",
+    "Neurology",
+    "Orthopedics",
+    "Pediatrics",
+    "General Medicine",
+    "Emergency",
+    "Radiology",
+    "Dermatology",
+    "Gynecology",
+  ];
+
+  const handleChange = (event) => {
+
+    const { name, value } = event.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+  };
+
+  const handleWorkingDay = (day) => {
+
+    setFormData((prev) => {
+
+      const exists = prev.working_days.includes(day);
+
+      return {
+
+        ...prev,
+
+        working_days: exists
+          ? prev.working_days.filter((item) => item !== day)
+          : [...prev.working_days, day],
+
+      };
 
     });
 
-    if (!open) return null;
+  };
+  const handleImageChange = (event) => {
 
-    const handleChange = (e) => {
+  const file = event.target.files[0];
 
-        const { name, value, files } = e.target;
+  if (!file) return;
 
-        if (name === "profilePicture") {
+  setFormData((prev) => ({
+    ...prev,
+    profile_picture: file,
+  }));
 
-            setFormData((prev) => ({
-                ...prev,
-                profilePicture: files[0],
-            }));
+  setPreviewImage(URL.createObjectURL(file));
 
-            return;
-        }
+};
 
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+  const handleSubmit = (event) => {
 
-    };
+    event.preventDefault();
 
-    const handleSubmit = () => {
+    onSave(formData);
 
-        console.log(formData);
+  };
 
-        // Future:
-        // POST /api/doctors
+  return (
 
-        onClose();
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+    >
 
-    };
+      <div
+        className="add-doctor-modal"
+        onClick={(event) => event.stopPropagation()}
+      >
 
-    return (
+        <div className="modal-header">
 
-        <div className="modal-overlay">
+          <h2>Add Doctor</h2>
 
-            <div className="doctor-modal">
-
-                {/* ================= HEADER ================= */}
-
-                <div className="modal-header">
-
-                    <div>
-
-                        <h2>Add New Doctor</h2>
-
-                        <p>
-                            Register a new doctor in your hospital.
-                        </p>
-
-                    </div>
-
-                    <button
-                        className="close-btn"
-                        onClick={onClose}
-                    >
-                        <CloseIcon />
-                    </button>
-
-                </div>
-
-                {/* ================= BODY ================= */}
-
-                <div className="modal-body">
-
-                    <div className="form-section">
-
-                        <h3>Personal Information</h3>
-
-                        <p className="section-description">
-                            Enter the doctor's personal details.
-                        </p>
-
-                        <div className="form-grid">
-
-                            {/* First Name */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    First Name <span>*</span>
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
-                                    placeholder="Enter first name"
-                                />
-
-                            </div>
-
-                            {/* Last Name */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Last Name <span>*</span>
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                    placeholder="Enter last name"
-                                />
-
-                            </div>
-
-                            {/* Email */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Email <span>*</span>
-                                </label>
-
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="Enter email"
-                                />
-
-                            </div>
-
-                            {/* Phone */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Phone Number <span>*</span>
-                                </label>
-
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    placeholder="Enter phone number"
-                                />
-
-                            </div>
-
-                            {/* Gender */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Gender <span>*</span>
-                                </label>
-
-                                <select
-                                    name="gender"
-                                    value={formData.gender}
-                                    onChange={handleChange}
-                                >
-
-                                    <option value="">
-                                        Select Gender
-                                    </option>
-
-                                    <option value="Male">
-                                        Male
-                                    </option>
-
-                                    <option value="Female">
-                                        Female
-                                    </option>
-
-                                    <option value="Other">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            {/* Date of Birth */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Date of Birth
-                                </label>
-
-                                <input
-                                    type="date"
-                                    name="dob"
-                                    value={formData.dob}
-                                    onChange={handleChange}
-                                />
-
-                            </div>
-
-                            {/* Address */}
-
-                            <div className="form-group full-width">
-
-                                <label>
-                                    Address
-                                </label>
-
-                                <textarea
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleChange}
-                                    placeholder="Enter doctor's address"
-                                />
-
-                            </div>
-
-                            {/* Profile Picture */}
-
-                            <div className="form-group full-width">
-
-                                <label>
-                                    Profile Picture
-                                </label>
-
-                                <div className="file-upload">
-
-                                    <input
-                                        type="file"
-                                        name="profilePicture"
-                                        accept="image/*"
-                                        onChange={handleChange}
-                                    />
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {/* ================= FOOTER ================= */}
-
-                <div className="modal-footer">
-
-                    <button
-                        className="cancel-btn"
-                        onClick={onClose}
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        className="save-btn"
-                        onClick={handleSubmit}
-                    >
-                        Continue
-                    </button>
-
-                </div>
-
-            </div>
+          <button
+            type="button"
+            className="close-btn"
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </button>
 
         </div>
 
-    );
+        <form
+          onSubmit={handleSubmit}
+          autoComplete="off"
+        >
+            <div className="doctor-photo-section">
+
+            <div className="doctor-photo-preview">
+
+                <img
+                src={
+                    previewImage ||
+                    "https://ui-avatars.com/api/?name=Doctor&background=EEF2FF&color=4F46E5&size=180"
+                }
+                alt="Doctor"
+                />
+
+            </div>
+
+            <label className="upload-photo-btn">
+
+                Upload Profile Picture
+
+                <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleImageChange}
+                />
+
+            </label>
+
+            <small>
+                Optional (JPG, PNG)
+            </small>
+
+            </div>
+
+          <div className="form-section">
+
+            <h3>Doctor Information</h3>
+
+            <div className="form-grid">
+
+              <div className="form-group">
+
+                <label>First Name</label>
+
+                <input
+                  type="text"
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Last Name</label>
+
+                <input
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Email</label>
+
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Phone Number</label>
+
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Gender</label>
+
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Date of Birth</label>
+
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  value={formData.date_of_birth}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Department</label>
+
+                <select
+                  name="department"
+                  value={formData.department}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Department</option>
+
+                  {departments.map((department) => (
+
+                    <option
+                      key={department}
+                      value={department}
+                    >
+                      {department}
+                    </option>
+
+                  ))}
+
+                </select>
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Specialization</label>
+
+                <input
+                  type="text"
+                  name="specialization"
+                  value={formData.specialization}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Years of Experience</label>
+
+                <input
+                  type="number"
+                  min="0"
+                  name="years_of_experience"
+                  value={formData.years_of_experience}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>Qualification</label>
+
+                <input
+                  type="text"
+                  name="qualification"
+                  value={formData.qualification}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group full-width">
+
+                <label>Medical License Number</label>
+
+                <input
+                  type="text"
+                  name="medical_license_number"
+                  value={formData.medical_license_number}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+              <div className="form-group full-width">
+
+                <label>Address</label>
+
+                <textarea
+                  rows="3"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                />
+
+              </div>
+         </div>
+         </div>
+        
+
+        <div className="form-section">
+
+          <h3>Account Information</h3>
+
+          <div className="form-grid">
+
+            <div className="form-group">
+
+              <label>Username</label>
+
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                autoComplete="off"
+                required
+              />
+
+            </div>
+
+            <div className="form-group">
+
+              <label>Temporary Password</label>
+
+              <div className="password-input">
+
+                <input
+                  type={
+                    showPassword
+                      ? "text"
+                      : "password"
+                  }
+                  name="temporary_password"
+                  value={formData.temporary_password}
+                  onChange={handleChange}
+                  autoComplete="new-password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() =>
+                    setShowPassword(!showPassword)
+                  }
+                >
+
+                  {
+                    showPassword
+                      ? <VisibilityOffOutlinedIcon />
+                      : <VisibilityOutlinedIcon />
+                  }
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="form-section">
+
+          <h3>Working Schedule</h3>
+
+          <div className="form-group">
+
+            <label>Working Days</label>
+
+            <div className="working-days">
+
+              {[
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ].map((day) => (
+
+                <label
+                  key={day}
+                  className="day-checkbox"
+                >
+
+                  <input
+                    type="checkbox"
+                    checked={formData.working_days.includes(day)}
+                    onChange={() => handleWorkingDay(day)}
+                  />
+
+                  <span>{day}</span>
+
+                </label>
+
+              ))}
+
+            </div>
+
+          </div>
+
+          <div className="form-grid">
+
+            <div className="form-group">
+
+              <label>Shift</label>
+
+              <select
+                name="shift"
+                value={formData.shift}
+                onChange={handleChange}
+              >
+
+                <option>Morning</option>
+
+                <option>Evening</option>
+
+                <option>Full Day</option>
+
+              </select>
+
+            </div>
+
+            <div className="form-group">
+
+              <label>Appointment Duration</label>
+
+              <input
+                type="text"
+                value={`${formData.appointment_duration} Minutes`}
+                disabled
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="modal-footer">
+
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={onClose}
+          >
+
+            Cancel
+
+          </button>
+
+          <button
+            type="submit"
+            className="save-btn"
+          >
+
+            Add Doctor
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+);
 
 }
 

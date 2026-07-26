@@ -1,25 +1,41 @@
-export const specializations = [
-  "General Medicine",
-  "Cardiology",
-  "Neurology",
-  "Orthopedics",
-  "Pediatrics",
-  "Dermatology",
-  "Gynecology",
-  "Psychiatry",
-  "Ophthalmology",
-  "ENT",
-  "Radiology",
-  "Anesthesiology",
-];
+const doctorFormData = {
 
-export const qualifications = [
-  "MBBS",
-  "MD",
-  "MS",
-  "DM",
-  "MCh",
-  "DNB",
-  "BDS",
-  "MDS",
-];
+  profile_picture: null,
+
+  first_name: "",
+
+  last_name: "",
+
+  email: "",
+
+  phone: "",
+
+  gender: "",
+
+  date_of_birth: "",
+
+  department: "",
+
+  specialization: "",
+
+  medical_license_number: "",
+
+  years_of_experience: "",
+
+  qualification: "",
+
+  address: "",
+
+  username: "",
+
+  temporary_password: "",
+
+  working_days: [],
+
+  shift: "Morning",
+
+  appointment_duration: 30,
+
+};
+
+export default doctorFormData;
