@@ -1,28 +1,17 @@
-import "./Login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import {
-  EnvelopeIcon,
-  LockIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  FirstAidIcon,
-} from "@phosphor-icons/react";
+import { AtIcon, EyesIcon } from "@phosphor-icons/react";
 
 function Login() {
   const navigate = useNavigate();
-
-  const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     const adminEmail = "";
     const adminPassword = "";
-
     if (email === adminEmail && password === adminPassword) {
       navigate("/dashboard");
     } else {
@@ -31,75 +20,78 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="left-panel">
-        <div className="brand-container">
-          <div className="logo">
-            <FirstAidIcon size={50} />
-          </div>
-          <h1>MediSync</h1>
-          <p className="tagline">Smart Hospital Administration System</p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
+      <div className="relative w-full max-w-md">
+        <div
+          className="absolute -inset-x-10 -inset-y-8 border border-outline-variant opacity-50 pointer-events-none"
+          style={{ borderRadius: "50% 62% 55% 45% / 68% 36% 64% 52%" }}
+        />
 
-        <div className="feature-list">
-          <div className="feature-item">
-            <div className="feature-icon">🏥</div>
+        <div className="relative px-10 py-4">
+          <div className="flex flex-col items-center mb-8">
+            <img
+              src="/logo.png"
+              alt="MediSync"
+              className="w-24 h-24 rounded-2xl mb-4 object-contain"
+            />
+            <h1 className="text-2xl font-semibold text-on-surface mb-1">MediSync</h1>
+            <p className="text-sm text-on-surface-variant">Sign in to your Hospital admin account</p>
+          </div>
+
+          <form onSubmit={handleLogin} autoComplete="off" className="flex flex-col gap-4">
             <div>
-              <h3>Hospital Management</h3>
-              <p>Manage departments and operations efficiently</p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <div className="feature-icon">👨‍⚕️</div>
-            <div>
-              <h3>Doctors & Patients</h3>
-              <p>Monitor healthcare activities easily</p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <div className="feature-icon">📅</div>
-            <div>
-              <h3>Appointment Scheduling</h3>
-              <p>Track appointments and workflows</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="right-panel">
-        <div className="login-card">
-          <h2>Hospital Admin Portal</h2>
-          <p className="welcome">Sign in to continue</p>
-
-          <form onSubmit={handleLogin} autoComplete="off">
-            <div className="input-group">
-              <EnvelopeIcon size={20} className="input-icon" />
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                autoComplete="username"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="input-group">
-              <LockIcon size={20} className="input-icon" />
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <div className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
+              <label className="block text-sm font-medium text-on-surface-variant mb-2">
+                Email
+              </label>
+              <div className="flex items-center gap-3 bg-surface-container border border-outline-variant rounded-xl px-4 py-3 focus-within:border-primary transition-colors">
+                <AtIcon size={20} className="text-outline flex-shrink-0" />
+                <input
+                  type="email"
+                  placeholder="you@hospital.com"
+                  value={email}
+                  autoComplete="username"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 bg-transparent outline-none text-on-surface placeholder:text-outline text-sm"
+                />
               </div>
             </div>
 
-            <button className="login-btn">Login</button>
+            <div>
+              <label className="block text-sm font-medium text-on-surface-variant mb-2">
+                Password
+              </label>
+              <div className="flex items-center gap-3 bg-surface-container border border-outline-variant rounded-xl px-4 py-3 focus-within:border-primary transition-colors">
+                <EyesIcon
+                  size={20}
+                  weight="fill"
+                  className={`text-outline flex-shrink-0 transition-transform duration-300 ${isPasswordFocused ? "" : "-scale-x-100"
+                    }`}
+                />
+                <input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  autoComplete="current-password"
+                  onFocus={() => setIsPasswordFocused(true)}
+                  onBlur={() => setIsPasswordFocused(false)}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="flex-1 bg-transparent outline-none text-on-surface placeholder:text-outline text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end text-sm py-1">
+              <a href="#" className="text-primary hover:underline">
+                Forgot password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-primary text-on-primary font-semibold text-sm hover:bg-primary-fixed-dim transition-colors mt-2"
+            >
+              Sign In
+            </button>
           </form>
         </div>
       </div>
