@@ -1,5 +1,3 @@
-import "./DoctorStats.css";
-
 import {
   UsersThreeIcon,
   ShieldCheckIcon,
@@ -9,49 +7,25 @@ import {
 
 function DoctorStats() {
   const stats = [
-    {
-      title: "Total Doctors",
-      value: 42,
-      icon: <UsersThreeIcon size={28} />,
-      color: "#EEF2FF",
-      iconColor: "#4F46E5",
-    },
-    {
-      title: "Active Now",
-      value: 36,
-      icon: <ShieldCheckIcon size={28} />,
-      color: "#ECFDF5",
-      iconColor: "#10B981",
-    },
-    {
-      title: "Surgery Hours",
-      value: "1,240",
-      icon: <FirstAidKitIcon size={28} />,
-      color: "#EFF6FF",
-      iconColor: "#3B82F6",
-    },
-    {
-      title: "On Call",
-      value: "04",
-      icon: <HospitalIcon size={28} />,
-      color: "#FEF2F2",
-      iconColor: "#EF4444",
-    },
+    { title: "Total Doctors", value: 42, icon: UsersThreeIcon, bg: "bg-secondary-container/40", text: "text-secondary" },
+    { title: "Active Now", value: 36, icon: ShieldCheckIcon, bg: "bg-tertiary-container/20", text: "text-tertiary" },
+    { title: "Surgery Hours", value: "1,240", icon: FirstAidKitIcon, bg: "bg-primary-container/20", text: "text-primary" },
+    { title: "On Call", value: "04", icon: HospitalIcon, bg: "bg-error-container/20", text: "text-error" },
   ];
 
   return (
-    <div className="doctor-stats">
-      {stats.map((stat, index) => (
-        <div className="doctor-stat-card" key={index}>
-          <div
-            className="doctor-stat-icon"
-            style={{ background: stat.color, color: stat.iconColor }}
-          >
-            {stat.icon}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+      {stats.map(({ title, value, icon: Icon, bg, text }) => (
+        <div
+          key={title}
+          className="bg-surface-container rounded-2xl p-5 border border-outline-variant flex items-center gap-4 hover:-translate-y-1 transition-transform"
+        >
+          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 ${bg} ${text}`}>
+            <Icon size={28} />
           </div>
-          <div className="doctor-stat-info">
-            <p>{stat.title}</p>
-            <h2>{stat.value}</h2>
+          <div>
+            <p className="text-sm text-on-surface-variant mb-1">{title}</p>
+            <h2 className="text-3xl font-bold text-on-surface">{value}</h2>
           </div>
         </div>
       ))}

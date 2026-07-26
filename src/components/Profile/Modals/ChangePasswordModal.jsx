@@ -1,7 +1,6 @@
-import "./ChangePasswordModal.css";
-
 import { useState } from "react";
-import { XIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
+import { EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
+import Modal from "../../Modal/Modal";
 
 function ChangePasswordModal({ onSave, onClose }) {
   const [formData, setFormData] = useState({
@@ -15,6 +14,9 @@ function ChangePasswordModal({ onSave, onClose }) {
     new: false,
     confirm: false,
   });
+
+  const inputClass =
+    "flex-1 h-11 px-4 outline-none bg-transparent text-on-surface text-sm";
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -41,77 +43,61 @@ function ChangePasswordModal({ onSave, onClose }) {
     onSave(formData);
   };
 
+  const fields = [
+    { key: "current", name: "current_password", label: "Current Password" },
+    { key: "new", name: "new_password", label: "New Password", hint: "Password must contain at least 8 characters." },
+    { key: "confirm", name: "confirm_password", label: "Confirm Password" },
+  ];
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="change-password-modal" onClick={(event) => event.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Change Password</h2>
-          <button type="button" className="close-btn" onClick={onClose}>
-            <XIcon size={20} />
+    <Modal
+      title="Change Password"
+      onClose={onClose}
+      footer={
+        <>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-6 py-2.5 rounded-lg border border-outline-variant text-on-surface text-sm font-semibold hover:bg-surface-container-high transition-colors"
+          >
+            Cancel
           </button>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Current Password</label>
-            <div className="password-input">
+          <button
+            type="submit"
+            form="change-password-form"
+            className="px-6 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
+          >
+            Update Password
+          </button>
+        </>
+      }
+    >
+      <form id="change-password-form" onSubmit={handleSubmit} className="flex flex-col gap-5">
+        {fields.map((field) => (
+          <div key={field.key}>
+            <label className="block text-sm font-medium text-on-surface-variant mb-2">{field.label}</label>
+            <div className="flex items-center border border-outline-variant rounded-xl bg-surface-container overflow-hidden focus-within:border-primary transition-colors">
               <input
-                type={showPassword.current ? "text" : "password"}
-                name="current_password"
-                value={formData.current_password}
+                type={showPassword[field.key] ? "text" : "password"}
+                name={field.name}
+                value={formData[field.name]}
                 onChange={handleChange}
                 required
+                className={inputClass}
               />
-              <button type="button" onClick={() => toggleVisibility("current")}>
-                {showPassword.current ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
+              <button
+                type="button"
+                onClick={() => toggleVisibility(field.key)}
+                className="w-12 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+              >
+                {showPassword[field.key] ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
               </button>
             </div>
+            {field.hint && <small className="text-on-surface-variant text-xs mt-1.5 block">{field.hint}</small>}
           </div>
-
-          <div className="form-group">
-            <label>New Password</label>
-            <div className="password-input">
-              <input
-                type={showPassword.new ? "text" : "password"}
-                name="new_password"
-                value={formData.new_password}
-                onChange={handleChange}
-                required
-              />
-              <button type="button" onClick={() => toggleVisibility("new")}>
-                {showPassword.new ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
-              </button>
-            </div>
-            <small>Password must contain at least 8 characters.</small>
-          </div>
-
-          <div className="form-group">
-            <label>Confirm Password</label>
-            <div className="password-input">
-              <input
-                type={showPassword.confirm ? "text" : "password"}
-                name="confirm_password"
-                value={formData.confirm_password}
-                onChange={handleChange}
-                required
-              />
-              <button type="button" onClick={() => toggleVisibility("confirm")}>
-                {showPassword.confirm ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
-              </button>
-            </div>
-          </div>
-
-          <div className="modal-actions">
-            <button type="button" className="cancel-btn" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="save-btn">
-              Update Password
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        ))}
+      </form>
+    </Modal>
   );
 }
 
