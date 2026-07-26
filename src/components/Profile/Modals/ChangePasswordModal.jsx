@@ -1,13 +1,9 @@
 import "./ChangePasswordModal.css";
 
 import { useState } from "react";
-
-import CloseIcon from "@mui/icons-material/Close";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { XIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 
 function ChangePasswordModal({ onSave, onClose }) {
-
   const [formData, setFormData] = useState({
     current_password: "",
     new_password: "",
@@ -21,27 +17,15 @@ function ChangePasswordModal({ onSave, onClose }) {
   });
 
   const handleChange = (event) => {
-
     const { name, value } = event.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const toggleVisibility = (field) => {
-
-    setShowPassword((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
-
+    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
 
     if (formData.new_password.length < 8) {
@@ -55,73 +39,38 @@ function ChangePasswordModal({ onSave, onClose }) {
     }
 
     onSave(formData);
-
   };
 
   return (
-
-    <div
-      className="modal-overlay"
-      onClick={onClose}
-    >
-
-      <div
-        className="change-password-modal"
-        onClick={(event) => event.stopPropagation()}
-      >
-
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="change-password-modal" onClick={(event) => event.stopPropagation()}>
         <div className="modal-header">
-
           <h2>Change Password</h2>
-
-          <button
-            type="button"
-            className="close-btn"
-            onClick={onClose}
-          >
-            <CloseIcon />
+          <button type="button" className="close-btn" onClick={onClose}>
+            <XIcon size={20} />
           </button>
-
         </div>
 
         <form onSubmit={handleSubmit}>
-
           <div className="form-group">
-
             <label>Current Password</label>
-
             <div className="password-input">
-
               <input
                 type={showPassword.current ? "text" : "password"}
                 name="current_password"
                 value={formData.current_password}
                 onChange={handleChange}
                 required
-                
               />
-
-              <button
-                type="button"
-                onClick={() => toggleVisibility("current")}
-              >
-                {showPassword.current ? (
-                  <VisibilityOffOutlinedIcon />
-                ) : (
-                  <VisibilityOutlinedIcon />
-                )}
+              <button type="button" onClick={() => toggleVisibility("current")}>
+                {showPassword.current ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
               </button>
-
             </div>
-
           </div>
 
           <div className="form-group">
-
             <label>New Password</label>
-
             <div className="password-input">
-
               <input
                 type={showPassword.new ? "text" : "password"}
                 name="new_password"
@@ -129,30 +78,16 @@ function ChangePasswordModal({ onSave, onClose }) {
                 onChange={handleChange}
                 required
               />
-
-              <button
-                type="button"
-                onClick={() => toggleVisibility("new")}
-              >
-                {showPassword.new ? (
-                  <VisibilityOffOutlinedIcon />
-                ) : (
-                  <VisibilityOutlinedIcon />
-                )}
+              <button type="button" onClick={() => toggleVisibility("new")}>
+                {showPassword.new ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
               </button>
-
             </div>
-
             <small>Password must contain at least 8 characters.</small>
-
           </div>
 
           <div className="form-group">
-
             <label>Confirm Password</label>
-
             <div className="password-input">
-
               <input
                 type={showPassword.confirm ? "text" : "password"}
                 name="confirm_password"
@@ -160,49 +95,24 @@ function ChangePasswordModal({ onSave, onClose }) {
                 onChange={handleChange}
                 required
               />
-
-              <button
-                type="button"
-                onClick={() => toggleVisibility("confirm")}
-              >
-                {showPassword.confirm ? (
-                  <VisibilityOffOutlinedIcon />
-                ) : (
-                  <VisibilityOutlinedIcon />
-                )}
+              <button type="button" onClick={() => toggleVisibility("confirm")}>
+                {showPassword.confirm ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
               </button>
-
             </div>
-
           </div>
 
           <div className="modal-actions">
-
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={onClose}
-            >
+            <button type="button" className="cancel-btn" onClick={onClose}>
               Cancel
             </button>
-
-            <button
-              type="submit"
-              className="save-btn"
-            >
+            <button type="submit" className="save-btn">
               Update Password
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default ChangePasswordModal;

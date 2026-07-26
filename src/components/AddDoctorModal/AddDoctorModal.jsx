@@ -1,13 +1,9 @@
 import "./AddDoctorModal.css";
 
 import { useState } from "react";
-
-import CloseIcon from "@mui/icons-material/Close";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { XIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 
 function AddDoctorModal({ onSave, onClose }) {
-
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -44,131 +40,71 @@ function AddDoctorModal({ onSave, onClose }) {
   ];
 
   const handleChange = (event) => {
-
     const { name, value } = event.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleWorkingDay = (day) => {
-
     setFormData((prev) => {
-
       const exists = prev.working_days.includes(day);
-
       return {
-
         ...prev,
-
         working_days: exists
           ? prev.working_days.filter((item) => item !== day)
           : [...prev.working_days, day],
-
       };
-
     });
-
   };
+
   const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const file = event.target.files[0];
-
-  if (!file) return;
-
-  setFormData((prev) => ({
-    ...prev,
-    profile_picture: file,
-  }));
-
-  setPreviewImage(URL.createObjectURL(file));
-
-};
+    setFormData((prev) => ({ ...prev, profile_picture: file }));
+    setPreviewImage(URL.createObjectURL(file));
+  };
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
-
     onSave(formData);
-
   };
 
   return (
-
-    <div
-      className="modal-overlay"
-      onClick={onClose}
-    >
-
-      <div
-        className="add-doctor-modal"
-        onClick={(event) => event.stopPropagation()}
-      >
-
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="add-doctor-modal" onClick={(event) => event.stopPropagation()}>
         <div className="modal-header">
-
           <h2>Add Doctor</h2>
-
-          <button
-            type="button"
-            className="close-btn"
-            onClick={onClose}
-          >
-            <CloseIcon />
+          <button type="button" className="close-btn" onClick={onClose}>
+            <XIcon size={20} />
           </button>
-
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          autoComplete="off"
-        >
-            <div className="doctor-photo-section">
-
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <div className="doctor-photo-section">
             <div className="doctor-photo-preview">
-
-                <img
+              <img
                 src={
-                    previewImage ||
-                    "https://ui-avatars.com/api/?name=Doctor&background=EEF2FF&color=4F46E5&size=180"
+                  previewImage ||
+                  "https://ui-avatars.com/api/?name=Doctor&background=EEF2FF&color=4F46E5&size=180"
                 }
                 alt="Doctor"
-                />
-
+              />
             </div>
 
             <label className="upload-photo-btn">
-
-                Upload Profile Picture
-
-                <input
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleImageChange}
-                />
-
+              Upload Profile Picture
+              <input type="file" accept="image/*" hidden onChange={handleImageChange} />
             </label>
 
-            <small>
-                Optional (JPG, PNG)
-            </small>
-
-            </div>
+            <small>Optional (JPG, PNG)</small>
+          </div>
 
           <div className="form-section">
-
             <h3>Doctor Information</h3>
 
             <div className="form-grid">
-
               <div className="form-group">
-
                 <label>First Name</label>
-
                 <input
                   type="text"
                   name="first_name"
@@ -176,13 +112,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Last Name</label>
-
                 <input
                   type="text"
                   name="last_name"
@@ -190,13 +123,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Email</label>
-
                 <input
                   type="email"
                   name="email"
@@ -204,13 +134,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Phone Number</label>
-
                 <input
                   type="tel"
                   name="phone"
@@ -218,31 +145,20 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Gender</label>
-
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  required
-                >
+                <select name="gender" value={formData.gender} onChange={handleChange} required>
                   <option value="">Select Gender</option>
                   <option>Male</option>
                   <option>Female</option>
                   <option>Other</option>
                 </select>
-
               </div>
 
               <div className="form-group">
-
                 <label>Date of Birth</label>
-
                 <input
                   type="date"
                   name="date_of_birth"
@@ -250,13 +166,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Department</label>
-
                 <select
                   name="department"
                   value={formData.department}
@@ -264,26 +177,16 @@ function AddDoctorModal({ onSave, onClose }) {
                   required
                 >
                   <option value="">Select Department</option>
-
                   {departments.map((department) => (
-
-                    <option
-                      key={department}
-                      value={department}
-                    >
+                    <option key={department} value={department}>
                       {department}
                     </option>
-
                   ))}
-
                 </select>
-
               </div>
 
               <div className="form-group">
-
                 <label>Specialization</label>
-
                 <input
                   type="text"
                   name="specialization"
@@ -291,13 +194,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Years of Experience</label>
-
                 <input
                   type="number"
                   min="0"
@@ -306,13 +206,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group">
-
                 <label>Qualification</label>
-
                 <input
                   type="text"
                   name="qualification"
@@ -320,13 +217,10 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group full-width">
-
                 <label>Medical License Number</label>
-
                 <input
                   type="text"
                   name="medical_license_number"
@@ -334,199 +228,119 @@ function AddDoctorModal({ onSave, onClose }) {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
               <div className="form-group full-width">
-
                 <label>Address</label>
-
                 <textarea
                   rows="3"
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
                 />
-
               </div>
-         </div>
-         </div>
-        
-
-        <div className="form-section">
-
-          <h3>Account Information</h3>
-
-          <div className="form-grid">
-
-            <div className="form-group">
-
-              <label>Username</label>
-
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                autoComplete="off"
-                required
-              />
-
             </div>
+          </div>
 
-            <div className="form-group">
+          <div className="form-section">
+            <h3>Account Information</h3>
 
-              <label>Temporary Password</label>
-
-              <div className="password-input">
-
+            <div className="form-grid">
+              <div className="form-group">
+                <label>Username</label>
                 <input
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
-                  name="temporary_password"
-                  value={formData.temporary_password}
+                  type="text"
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
-                  autoComplete="new-password"
+                  autoComplete="off"
                   required
                 />
-
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
-                >
-
-                  {
-                    showPassword
-                      ? <VisibilityOffOutlinedIcon />
-                      : <VisibilityOutlinedIcon />
-                  }
-
-                </button>
-
               </div>
 
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="form-section">
-
-          <h3>Working Schedule</h3>
-
-          <div className="form-group">
-
-            <label>Working Days</label>
-
-            <div className="working-days">
-
-              {[
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ].map((day) => (
-
-                <label
-                  key={day}
-                  className="day-checkbox"
-                >
-
+              <div className="form-group">
+                <label>Temporary Password</label>
+                <div className="password-input">
                   <input
-                    type="checkbox"
-                    checked={formData.working_days.includes(day)}
-                    onChange={() => handleWorkingDay(day)}
+                    type={showPassword ? "text" : "password"}
+                    name="temporary_password"
+                    value={formData.temporary_password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    required
                   />
-
-                  <span>{day}</span>
-
-                </label>
-
-              ))}
-
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeSlashIcon size={20} /> : <EyeIcon size={20} />}
+                  </button>
+                </div>
+              </div>
             </div>
-
           </div>
 
-          <div className="form-grid">
+          <div className="form-section">
+            <h3>Working Schedule</h3>
 
             <div className="form-group">
-
-              <label>Shift</label>
-
-              <select
-                name="shift"
-                value={formData.shift}
-                onChange={handleChange}
-              >
-
-                <option>Morning</option>
-
-                <option>Evening</option>
-
-                <option>Full Day</option>
-
-              </select>
-
+              <label>Working Days</label>
+              <div className="working-days">
+                {[
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ].map((day) => (
+                  <label key={day} className="day-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={formData.working_days.includes(day)}
+                      onChange={() => handleWorkingDay(day)}
+                    />
+                    <span>{day}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
-            <div className="form-group">
+            <div className="form-grid">
+              <div className="form-group">
+                <label>Shift</label>
+                <select name="shift" value={formData.shift} onChange={handleChange}>
+                  <option>Morning</option>
+                  <option>Evening</option>
+                  <option>Full Day</option>
+                </select>
+              </div>
 
-              <label>Appointment Duration</label>
-
-              <input
-                type="text"
-                value={`${formData.appointment_duration} Minutes`}
-                disabled
-              />
-
+              <div className="form-group">
+                <label>Appointment Duration</label>
+                <input
+                  type="text"
+                  value={`${formData.appointment_duration} Minutes`}
+                  disabled
+                />
+              </div>
             </div>
-
           </div>
 
-        </div>
-
-        <div className="modal-footer">
-
-          <button
-            type="button"
-            className="cancel-btn"
-            onClick={onClose}
-          >
-
-            Cancel
-
-          </button>
-
-          <button
-            type="submit"
-            className="save-btn"
-          >
-
-            Add Doctor
-
-          </button>
-
-        </div>
-
-      </form>
-
+          <div className="modal-footer">
+            <button type="button" className="cancel-btn" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="submit" className="save-btn">
+              Add Doctor
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-
-  </div>
-
-);
-
+  );
 }
 
 export default AddDoctorModal;

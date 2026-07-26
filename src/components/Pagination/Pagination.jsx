@@ -1,16 +1,8 @@
 import "./Pagination.css";
 
-import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react";
 
-function Pagination({
-  currentPage,
-  totalPages,
-  pageSize,
-  totalItems,
-  onPageChange,
-}) {
-
+function Pagination({ currentPage, totalPages, pageSize, totalItems, onPageChange }) {
   if (totalPages <= 1) return null;
 
   const startItem = (currentPage - 1) * pageSize + 1;
@@ -25,49 +17,37 @@ function Pagination({
   }
 
   const pages = [];
-
   for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }
 
   return (
-
     <div className="pagination-container">
-
       <div className="pagination-info">
-
         Showing <strong>{startItem}-{endItem}</strong> of{" "}
         <strong>{totalItems}</strong> appointments
-
       </div>
 
       <div className="pagination-controls">
-
         <button
           className="pagination-nav"
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
         >
-          <KeyboardArrowLeftRoundedIcon />
+          <CaretLeftIcon size={20} />
           Previous
         </button>
 
         <div className="pagination-pages">
-
           {pages.map((page) => (
-
             <button
               key={page}
-              className={`page-btn ${
-                currentPage === page ? "active" : ""
-              }`}
+              className={`page-btn ${currentPage === page ? "active" : ""}`}
               onClick={() => onPageChange(page)}
             >
               {page}
             </button>
-
           ))}
-
         </div>
 
         <button
@@ -76,15 +56,11 @@ function Pagination({
           onClick={() => onPageChange(currentPage + 1)}
         >
           Next
-          <KeyboardArrowRightRoundedIcon />
+          <CaretRightIcon size={20} />
         </button>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default Pagination;

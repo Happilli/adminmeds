@@ -1,13 +1,7 @@
 import "./AppointmentTable.css";
 
-import { useState } from "react";
-
-import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { useState, useRef, useEffect } from "react";
+import { DotsThreeVerticalIcon, EyeIcon, PencilSimpleIcon } from "@phosphor-icons/react";
 
 function AppointmentTable({
   appointments,
@@ -15,160 +9,109 @@ function AppointmentTable({
   onUpdateStatus,
 }) {
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const menuRef = useRef(null);
 
-  const open = Boolean(anchorEl);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const handleMenuOpen = (event, appointment) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedAppointment(appointment);
+  const handleMenuToggle = (appointmentId) => {
+    setOpenMenuId((prev) => (prev === appointmentId ? null : appointmentId));
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleViewDetailsClick = (appointment) => {
+    onViewDetails(appointment);
+    setOpenMenuId(null);
   };
 
-  const handleViewDetailsClick = () => {
-
-    onViewDetails(selectedAppointment);
-
-    handleMenuClose();
-
-  };
-
-  const handleUpdateStatusClick = () => {
-
-    onUpdateStatus(selectedAppointment);
-
-    handleMenuClose();
-
+  const handleUpdateStatusClick = (appointment) => {
+    onUpdateStatus(appointment);
+    setOpenMenuId(null);
   };
 
   return (
-    <>
+    <table className="appointment-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
 
-      <table className="appointment-table">
+      <tbody>
+        {appointments.map((appointment) => (
+          <tr key={appointment.id}>
+            <td>
+              <div className="appointment-time">
+                <strong>{appointment.time}</strong>
+                <span>{appointment.date}</span>
+              </div>
+            </td>
 
-        <thead>
+            <td>
+              <div className="patient-info">
+                <strong>{appointment.patient.name}</strong>
+                <span>{appointment.patient.details}</span>
+              </div>
+            </td>
 
-          <tr>
-            <th>Time</th>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Action</th>
+            <td>
+              <div className="doctor-info">
+                <strong>{appointment.doctor.name}</strong>
+                <span>{appointment.doctor.specialization}</span>
+              </div>
+            </td>
+
+            <td>{appointment.reason}</td>
+
+            <td>
+              <span className={`status-badge ${appointment.status.toLowerCase()}`}>
+                {appointment.status}
+              </span>
+            </td>
+
+            <td className="action-cell">
+              <button
+                className="action-btn"
+                onClick={() => handleMenuToggle(appointment.id)}
+              >
+                <DotsThreeVerticalIcon size={20} />
+              </button>
+
+              {openMenuId === appointment.id && (
+                <div className="action-menu" ref={menuRef}>
+                  <button
+                    className="action-menu-item"
+                    onClick={() => handleViewDetailsClick(appointment)}
+                  >
+                    <EyeIcon size={18} />
+                    View Details
+                  </button>
+                  <button
+                    className="action-menu-item"
+                    onClick={() => handleUpdateStatusClick(appointment)}
+                  >
+                    <PencilSimpleIcon size={18} />
+                    Update Status
+                  </button>
+                </div>
+              )}
+            </td>
           </tr>
-
-        </thead>
-
-        <tbody>
-
-          {appointments.map((appointment) => (
-
-            <tr key={appointment.id}>
-
-              <td>
-
-                <div className="appointment-time">
-
-                  <strong>{appointment.time}</strong>
-
-                  <span>{appointment.date}</span>
-
-                </div>
-
-              </td>
-
-              <td>
-
-                <div className="patient-info">
-
-                  <strong>{appointment.patient.name}</strong>
-
-                  <span>{appointment.patient.details}</span>
-
-                </div>
-
-              </td>
-
-              <td>
-
-                <div className="doctor-info">
-
-                  <strong>{appointment.doctor.name}</strong>
-
-                  <span>{appointment.doctor.specialization}</span>
-
-                </div>
-
-              </td>
-
-              <td>{appointment.reason}</td>
-
-              <td>
-
-                <span
-                  className={`status-badge ${appointment.status.toLowerCase()}`}
-                >
-                  {appointment.status}
-                </span>
-
-              </td>
-
-              <td>
-
-                <button
-                  className="action-btn"
-                  onClick={(event) =>
-                    handleMenuOpen(event, appointment)
-                  }
-                >
-                  <MoreVertRoundedIcon />
-                </button>
-
-              </td>
-
-            </tr>
-
-          ))}
-
-        </tbody>
-
-      </table>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleMenuClose}
-      >
-
-        <MenuItem onClick={handleViewDetailsClick}>
-
-          <VisibilityOutlinedIcon
-            fontSize="small"
-            sx={{ mr: 1 }}
-          />
-
-          View Details
-
-        </MenuItem>
-
-        <MenuItem onClick={handleUpdateStatusClick}>
-
-          <EditOutlinedIcon
-            fontSize="small"
-            sx={{ mr: 1 }}
-          />
-
-          Update Status
-
-        </MenuItem>
-
-      </Menu>
-
-    </>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

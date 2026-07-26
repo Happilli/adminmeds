@@ -1,42 +1,43 @@
 import "./AppointmentStats.css";
 
-import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
-import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import {
+  CalendarBlankIcon,
+  CheckCircleIcon,
+  CheckSquareIcon,
+  ClockIcon,
+  XCircleIcon,
+} from "@phosphor-icons/react";
 
 function AppointmentStats({ stats }) {
-
   const cards = [
     {
       title: "Total Appointments",
       value: stats.total,
-      icon: <CalendarMonthRoundedIcon />,
+      icon: <CalendarBlankIcon size={24} />,
       color: "blue",
     },
     {
       title: "Confirmed",
       value: stats.confirmed,
-      icon: <CheckCircleRoundedIcon />,
+      icon: <CheckCircleIcon size={24} />,
       color: "green",
     },
     {
       title: "Completed",
       value: stats.completed,
-      icon: <TaskAltRoundedIcon />,
+      icon: <CheckSquareIcon size={24} />,
       color: "purple",
     },
     {
       title: "Pending",
       value: stats.pending,
-      icon: <ScheduleRoundedIcon />,
+      icon: <ClockIcon size={24} />,
       color: "orange",
     },
     {
       title: "Cancelled",
       value: stats.cancelled,
-      icon: <CancelRoundedIcon />,
+      icon: <XCircleIcon size={24} />,
       color: "red",
     },
   ];
@@ -44,16 +45,10 @@ function AppointmentStats({ stats }) {
   return (
     <div className="appointment-stats">
       {cards.map((card) => (
-        <div
-          key={card.title}
-          className={`appointment-stat-card ${card.color}`}
-        >
+        <div key={card.title} className={`appointment-stat-card ${card.color}`}>
           <div className="stat-top">
-            <div className={`stat-icon ${card.color}`}>
-              {card.icon}
-            </div>
+            <div className={`stat-icon ${card.color}`}>{card.icon}</div>
           </div>
-
           <div className="stat-content">
             <h2>{card.value}</h2>
             <p>{card.title}</p>

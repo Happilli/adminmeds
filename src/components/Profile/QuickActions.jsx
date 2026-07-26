@@ -1,60 +1,43 @@
 import "./QuickActions.css";
 
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import {
+  PencilSimpleIcon,
+  BuildingsIcon,
+  LockIcon,
+  SignOutIcon,
+  CaretRightIcon,
+} from "@phosphor-icons/react";
 
 const iconMap = {
-  edit_profile: EditOutlinedIcon,
-  hospital_information: BusinessOutlinedIcon,
-  change_password: LockOutlinedIcon,
-  logout: LogoutOutlinedIcon,
+  edit_profile: PencilSimpleIcon,
+  hospital_information: BuildingsIcon,
+  change_password: LockIcon,
+  logout: SignOutIcon,
 };
 
 function QuickActions({ actions, onAction }) {
   return (
     <div className="quick-actions-card">
-
       <div className="card-header">
         <h2>Quick Actions</h2>
       </div>
 
       <div className="quick-actions-list">
-
         {actions.map((item) => {
-
-          const Icon = iconMap[item.key];
-
+          const IconComp = iconMap[item.key];
           return (
-
-            <button
-              key={item.id}
-              className="quick-action-item"
-              onClick={() => onAction(item.key)}
-            >
-
+            <button key={item.id} className="quick-action-item" onClick={() => onAction(item.key)}>
               <div className="quick-action-left">
-
                 <div className="quick-action-icon">
-                  <Icon />
+                  <IconComp size={22} />
                 </div>
-
                 <span>{item.title}</span>
-
               </div>
-
-              <ChevronRightOutlinedIcon />
-
+              <CaretRightIcon size={20} />
             </button>
-
           );
-
         })}
-
       </div>
-
     </div>
   );
 }

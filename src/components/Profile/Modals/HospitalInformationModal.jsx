@@ -1,15 +1,9 @@
 import "./HospitalInformationModal.css";
 
 import { useState } from "react";
+import { XIcon } from "@phosphor-icons/react";
 
-import CloseIcon from "@mui/icons-material/Close";
-
-function HospitalInformationModal({
-  hospital,
-  onSave,
-  onClose,
-}) {
-
+function HospitalInformationModal({ hospital, onSave, onClose }) {
   const [formData, setFormData] = useState({
     hospital_name: hospital.hospital_name,
     registration_number: hospital.registration_number,
@@ -20,59 +14,28 @@ function HospitalInformationModal({
   });
 
   const handleChange = (event) => {
-
     const { name, value } = event.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
-
     onSave(formData);
-
   };
 
   return (
-
-    <div
-      className="modal-overlay"
-      onClick={onClose}
-    >
-
-      <div
-        className="hospital-information-modal"
-        onClick={(event) => event.stopPropagation()}
-      >
-
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="hospital-information-modal" onClick={(event) => event.stopPropagation()}>
         <div className="modal-header">
-
           <h2>Hospital Information</h2>
-
-          <button
-            type="button"
-            className="close-btn"
-            onClick={onClose}
-          >
-            <CloseIcon />
+          <button type="button" className="close-btn" onClick={onClose}>
+            <XIcon size={20} />
           </button>
-
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          autoComplete="off"
-        >
-
+        <form onSubmit={handleSubmit} autoComplete="off">
           <div className="form-group">
-
             <label>Hospital Name</label>
-
             <input
               type="text"
               name="hospital_name"
@@ -80,13 +43,10 @@ function HospitalInformationModal({
               onChange={handleChange}
               required
             />
-
           </div>
 
           <div className="form-group">
-
             <label>Registration Number</label>
-
             <input
               type="text"
               name="registration_number"
@@ -94,13 +54,10 @@ function HospitalInformationModal({
               onChange={handleChange}
               required
             />
-
           </div>
 
           <div className="form-group">
-
             <label>Hospital Email</label>
-
             <input
               type="email"
               name="hospital_email"
@@ -108,13 +65,10 @@ function HospitalInformationModal({
               onChange={handleChange}
               required
             />
-
           </div>
 
           <div className="form-group">
-
             <label>Hospital Phone</label>
-
             <input
               type="text"
               name="hospital_phone"
@@ -122,13 +76,10 @@ function HospitalInformationModal({
               onChange={handleChange}
               required
             />
-
           </div>
 
           <div className="form-group">
-
             <label>Website (Optional)</label>
-
             <input
               type="url"
               name="website"
@@ -136,13 +87,10 @@ function HospitalInformationModal({
               onChange={handleChange}
               placeholder="https://example.com"
             />
-
           </div>
 
           <div className="form-group">
-
             <label>Address</label>
-
             <textarea
               name="address"
               rows="3"
@@ -150,36 +98,20 @@ function HospitalInformationModal({
               onChange={handleChange}
               required
             />
-
           </div>
 
           <div className="modal-actions">
-
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={onClose}
-            >
+            <button type="button" className="cancel-btn" onClick={onClose}>
               Cancel
             </button>
-
-            <button
-              type="submit"
-              className="save-btn"
-            >
+            <button type="submit" className="save-btn">
               Save Changes
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default HospitalInformationModal;
