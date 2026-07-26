@@ -4,9 +4,11 @@ import { AtIcon, EyesIcon } from "@phosphor-icons/react";
 
 function Login() {
   const navigate = useNavigate();
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const isAnyFieldFocused = isEmailFocused || isPasswordFocused;
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -23,7 +25,10 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <div className="relative w-full max-w-md">
         <div
-          className="absolute -inset-x-10 -inset-y-8 border border-outline-variant opacity-50 pointer-events-none"
+          className={`absolute -inset-x-10 -inset-y-8 border pointer-events-none transition-all duration-300 ${isAnyFieldFocused
+            ? "border-outline opacity-100"
+            : "border-outline-variant opacity-50"
+            }`}
           style={{ borderRadius: "50% 62% 55% 45% / 68% 36% 64% 52%" }}
         />
 
@@ -44,14 +49,21 @@ function Login() {
                 Email
               </label>
               <div className="flex items-center gap-3 bg-surface-container border border-outline-variant rounded-xl px-4 py-3 focus-within:border-primary transition-colors">
-                <AtIcon size={20} className="text-outline flex-shrink-0" />
+                <AtIcon
+                  size={20}
+                  className={`text-outline flex-shrink-0 transition-all duration-300 ${isEmailFocused ? "brightness-150" : ""
+                    }`}
+                />
                 <input
                   type="email"
                   placeholder="you@hospital.com"
                   value={email}
                   autoComplete="username"
+                  onFocus={() => setIsEmailFocused(true)}
+                  onBlur={() => setIsEmailFocused(false)}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-transparent outline-none text-on-surface placeholder:text-outline text-sm"
+                  className={`flex-1 bg-transparent outline-none placeholder:text-outline text-sm transition-colors duration-300 ${isEmailFocused ? "text-on-surface" : "text-on-surface-variant"
+                    }`}
                 />
               </div>
             </div>
@@ -64,7 +76,7 @@ function Login() {
                 <EyesIcon
                   size={20}
                   weight="fill"
-                  className={`text-outline flex-shrink-0 transition-transform duration-300 ${isPasswordFocused ? "" : "-scale-x-100"
+                  className={`text-outline flex-shrink-0 transition-all duration-300 ${isPasswordFocused ? "brightness-150 -scale-x-100" : ""
                     }`}
                 />
                 <input
@@ -75,7 +87,8 @@ function Login() {
                   onFocus={() => setIsPasswordFocused(true)}
                   onBlur={() => setIsPasswordFocused(false)}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="flex-1 bg-transparent outline-none text-on-surface placeholder:text-outline text-sm"
+                  className={`flex-1 bg-transparent outline-none placeholder:text-outline text-sm transition-colors duration-300 ${isPasswordFocused ? "text-on-surface" : "text-on-surface-variant"
+                    }`}
                 />
               </div>
             </div>
