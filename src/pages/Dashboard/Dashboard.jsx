@@ -1,5 +1,3 @@
-import "./Dashboard.css";
-
 import StatCard from "../../components/Statcard/StatCard";
 import WeeklyChart from "../../components/WeeklyChart/WeeklyChart";
 import RecentAppointments from "../../components/RecentAppointments/RecentAppointments";
@@ -8,11 +6,11 @@ import { UserIcon, UsersIcon, CalendarBlankIcon, FirstAidIcon } from "@phosphor-
 
 function Dashboard() {
   return (
-    <div className="dashboard-content">
-      <h1>Hello Admin</h1>
-      <p className="welcome-text">Welcome back to MediSync Dashboard</p>
+    <div>
+      <h1 className="text-3xl font-bold text-on-surface mb-1">Hello Admin</h1>
+      <p className="text-on-surface-variant mb-8">Welcome back to MediSync Dashboard</p>
 
-      <div className="stats-grid">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <StatCard
           number="24"
           title="Doctors"

@@ -1,5 +1,3 @@
-import "./QuickActions.css";
-
 import {
   PencilSimpleIcon,
   BuildingsIcon,
@@ -17,23 +15,36 @@ const iconMap = {
 
 function QuickActions({ actions, onAction }) {
   return (
-    <div className="quick-actions-card">
-      <div className="card-header">
-        <h2>Quick Actions</h2>
+    <div className="bg-surface-container rounded-2xl p-6 border border-outline-variant flex flex-col gap-6">
+      <div>
+        <h2 className="text-lg font-semibold text-on-surface">Quick Actions</h2>
       </div>
 
-      <div className="quick-actions-list">
+      <div className="flex flex-col gap-3">
         {actions.map((item) => {
           const IconComp = iconMap[item.key];
+          const isLogout = item.key === "logout";
           return (
-            <button key={item.id} className="quick-action-item" onClick={() => onAction(item.key)}>
-              <div className="quick-action-left">
-                <div className="quick-action-icon">
+            <button
+              key={item.id}
+              onClick={() => onAction(item.key)}
+              className={`flex justify-between items-center px-4 py-4 rounded-xl border transition-colors ${isLogout
+                  ? "bg-error-container/10 border-error/30 hover:bg-error-container/20"
+                  : "bg-surface-container-high border-outline-variant hover:border-primary"
+                }`}
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className={`w-10 h-10 rounded-lg flex items-center justify-center ${isLogout ? "bg-error-container/20 text-error" : "bg-secondary-container/40 text-secondary"
+                    }`}
+                >
                   <IconComp size={22} />
                 </div>
-                <span>{item.title}</span>
+                <span className={`text-sm font-semibold ${isLogout ? "text-error" : "text-on-surface"}`}>
+                  {item.title}
+                </span>
               </div>
-              <CaretRightIcon size={20} />
+              <CaretRightIcon size={20} className={isLogout ? "text-error" : "text-outline"} />
             </button>
           );
         })}

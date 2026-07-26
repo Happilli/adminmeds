@@ -1,7 +1,5 @@
-import "./UpdateAppointmentStatusModal.css";
-
 import { useEffect, useState } from "react";
-import { XIcon } from "@phosphor-icons/react";
+import Modal from "../Modal/Modal";
 
 function UpdateAppointmentStatusModal({ open, appointment, onClose, onSave }) {
   const [status, setStatus] = useState("");
@@ -20,52 +18,73 @@ function UpdateAppointmentStatusModal({ open, appointment, onClose, onSave }) {
   };
 
   return (
-    <div className="status-modal-overlay">
-      <div className="status-modal">
-        <div className="status-modal-header">
-          <h2>Update Appointment Status</h2>
-          <button className="modal-close-btn" onClick={onClose}>
-            <XIcon size={22} />
-          </button>
-        </div>
-
-        <div className="status-modal-body">
-          <div className="status-field">
-            <label>Patient</label>
-            <input type="text" value={appointment.patient.name} disabled />
-          </div>
-
-          <div className="status-field">
-            <label>Doctor</label>
-            <input type="text" value={appointment.doctor.name} disabled />
-          </div>
-
-          <div className="status-field">
-            <label>Appointment Date</label>
-            <input type="text" value={appointment.date} disabled />
-          </div>
-
-          <div className="status-field">
-            <label>Status</label>
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="Pending">Pending</option>
-              <option value="Confirmed">Confirmed</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="status-modal-footer">
-          <button className="cancel-btn" onClick={onClose}>
+    <Modal
+      title="Update Appointment Status"
+      onClose={onClose}
+      maxWidth="max-w-lg"
+      footer={
+        <>
+          <button
+            onClick={onClose}
+            className="px-6 py-2.5 rounded-lg border border-outline-variant text-on-surface text-sm font-semibold hover:bg-surface-container-high transition-colors"
+          >
             Cancel
           </button>
-          <button className="save-btn" onClick={handleSave}>
+          <button
+            onClick={handleSave}
+            className="px-6 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
+          >
             Save Changes
           </button>
+        </>
+      }
+    >
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-on-surface-variant">Patient</label>
+          <input
+            type="text"
+            value={appointment.patient.name}
+            disabled
+            className="h-11 px-4 rounded-xl border border-outline-variant bg-surface-container-high text-on-surface-variant text-sm"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-on-surface-variant">Doctor</label>
+          <input
+            type="text"
+            value={appointment.doctor.name}
+            disabled
+            className="h-11 px-4 rounded-xl border border-outline-variant bg-surface-container-high text-on-surface-variant text-sm"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-on-surface-variant">Appointment Date</label>
+          <input
+            type="text"
+            value={appointment.date}
+            disabled
+            className="h-11 px-4 rounded-xl border border-outline-variant bg-surface-container-high text-on-surface-variant text-sm"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-on-surface-variant">Status</label>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="h-11 px-4 rounded-xl border border-outline-variant bg-surface-container text-on-surface text-sm cursor-pointer focus:border-primary outline-none transition-colors"
+          >
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
 

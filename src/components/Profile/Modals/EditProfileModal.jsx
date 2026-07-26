@@ -1,7 +1,5 @@
-import "./EditProfileModal.css";
-
 import { useState } from "react";
-import { XIcon } from "@phosphor-icons/react";
+import Modal from "../../Modal/Modal";
 
 function EditProfileModal({ profile, onSave, onClose }) {
   const [formData, setFormData] = useState({
@@ -10,6 +8,9 @@ function EditProfileModal({ profile, onSave, onClose }) {
     phone: profile.phone,
   });
 
+  const inputClass =
+    "w-full h-11 px-4 rounded-xl border border-outline-variant bg-surface-container text-on-surface text-sm outline-none focus:border-primary transition-colors";
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -17,75 +18,55 @@ function EditProfileModal({ profile, onSave, onClose }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const updatedProfile = {
-      ...profile,
-      full_name: formData.full_name,
-      email: formData.email,
-      phone: formData.phone,
-    };
-
-    onSave(updatedProfile);
+    onSave({ ...profile, ...formData });
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="edit-profile-modal" onClick={(event) => event.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Edit Profile</h2>
-          <button type="button" className="close-btn" onClick={onClose}>
-            <XIcon size={20} />
+    <Modal
+      title="Edit Profile"
+      onClose={onClose}
+      footer={
+        <>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-6 py-2.5 rounded-lg border border-outline-variant text-on-surface text-sm font-semibold hover:bg-surface-container-high transition-colors"
+          >
+            Cancel
           </button>
+          <button
+            type="submit"
+            form="edit-profile-form"
+            className="px-6 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
+          >
+            Save Changes
+          </button>
+        </>
+      }
+    >
+      <form id="edit-profile-form" onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <div>
+          <label htmlFor="full_name" className="block text-sm font-medium text-on-surface-variant mb-2">
+            Full Name
+          </label>
+          <input id="full_name" type="text" name="full_name" value={formData.full_name} onChange={handleChange} required className={inputClass} />
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="full_name">Full Name</label>
-            <input
-              id="full_name"
-              type="text"
-              name="full_name"
-              value={formData.full_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-on-surface-variant mb-2">
+            Email Address
+          </label>
+          <input id="email" type="email" name="email" value={formData.email} onChange={handleChange} required className={inputClass} />
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              id="phone"
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="modal-actions">
-            <button type="button" className="cancel-btn" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="save-btn">
-              Save Changes
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-on-surface-variant mb-2">
+            Phone Number
+          </label>
+          <input id="phone" type="text" name="phone" value={formData.phone} onChange={handleChange} required className={inputClass} />
+        </div>
+      </form>
+    </Modal>
   );
 }
 

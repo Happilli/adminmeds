@@ -1,4 +1,3 @@
-import "./Profile.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,135 +14,68 @@ import LogoutConfirmationModal from "../../components/Profile/Modals/LogoutConfi
 import profile from "../../data/profile";
 
 function Profile() {
-
   const navigate = useNavigate();
-
   const [profileData, setProfileData] = useState(profile);
-
   const [activeModal, setActiveModal] = useState(null);
 
-  const handleEditProfile = () => {
-    setActiveModal("edit_profile");
-  };
-
-  const handleHospitalInformation = () => {
-    setActiveModal("hospital_information");
-  };
-
-  const handleChangePassword = () => {
-    setActiveModal("change_password");
-  };
-
-  const handleLogout = () => {
-    setActiveModal("logout");
-  };
-
-  const handleCloseModal = () => {
-    setActiveModal(null);
-  };
+  const handleCloseModal = () => setActiveModal(null);
 
   const handleSaveProfile = (updatedProfile) => {
-
     setProfileData(updatedProfile);
-
     setActiveModal(null);
-
   };
 
   const handleSaveHospital = (updatedHospital) => {
-
-    setProfileData((prev) => ({
-      ...prev,
-      hospital: updatedHospital,
-    }));
-
+    setProfileData((prev) => ({ ...prev, hospital: updatedHospital }));
     setActiveModal(null);
-
   };
 
   const handleSavePassword = (passwordData) => {
-
     console.log(passwordData);
-
     setActiveModal(null);
-
   };
 
   const handleConfirmLogout = () => {
-
-    
-
     setActiveModal(null);
-
     navigate("/");
-
-    // Later:
-    // Clear auth token
-    // Navigate to login
-    // Reset user session
-
   };
 
   const actionHandlers = {
-
-    edit_profile: handleEditProfile,
-
-    hospital_information: handleHospitalInformation,
-
-    change_password: handleChangePassword,
-
-    logout: handleLogout,
-
+    edit_profile: () => setActiveModal("edit_profile"),
+    hospital_information: () => setActiveModal("hospital_information"),
+    change_password: () => setActiveModal("change_password"),
+    logout: () => setActiveModal("logout"),
   };
 
   const handleAction = (key) => {
-
     actionHandlers[key]?.();
-
   };
 
   return (
-
-    <div className="profile-page">
-
-      <div className="profile-title">
-
-        <h1>Admin Profile</h1>
-
-        <p>
-          Manage your account and hospital settings.
-        </p>
-
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="text-3xl font-bold text-on-surface mb-1">Admin Profile</h1>
+        <p className="text-on-surface-variant text-sm">Manage your account and hospital settings.</p>
       </div>
 
-      <ProfileHeader profile={profileData} />
+      <ProfileHeader profile={profileData} onEdit={() => handleAction("edit_profile")} />
 
-      <div className="profile-grid">
-
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
         <HospitalInfoCard hospital={profileData.hospital} />
-
-        <SecurityCard security={profileData.security} />
-
+        <SecurityCard
+          security={profileData.security}
+          onChangePassword={() => handleAction("change_password")}
+        />
       </div>
 
-      <QuickActions
-        actions={profileData.actions}
-        onAction={handleAction}
-      />
+      <QuickActions actions={profileData.actions} onAction={handleAction} />
 
       {activeModal === "edit_profile" && (
-        <EditProfileModal
-          profile={profileData}
-          onSave={handleSaveProfile}
-          onClose={handleCloseModal}
-        />
+        <EditProfileModal profile={profileData} onSave={handleSaveProfile} onClose={handleCloseModal} />
       )}
 
       {activeModal === "change_password" && (
-        <ChangePasswordModal
-          onSave={handleSavePassword}
-          onClose={handleCloseModal}
-        />
+        <ChangePasswordModal onSave={handleSavePassword} onClose={handleCloseModal} />
       )}
 
       {activeModal === "hospital_information" && (
@@ -155,16 +87,10 @@ function Profile() {
       )}
 
       {activeModal === "logout" && (
-        <LogoutConfirmationModal
-          onConfirm={handleConfirmLogout}
-          onClose={handleCloseModal}
-        />
+        <LogoutConfirmationModal onConfirm={handleConfirmLogout} onClose={handleCloseModal} />
       )}
-
     </div>
-
   );
-
 }
 
 export default Profile;

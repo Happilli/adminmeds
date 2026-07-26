@@ -1,5 +1,3 @@
-import "./Appointments.css";
-
 import { useState } from "react";
 
 import AppointmentToolbar from "../../components/AppointmentToolbar/AppointmentToolbar";
@@ -12,11 +10,6 @@ import UpdateAppointmentStatusModal from "../../components/UpdateAppointmentStat
 import appointments from "../../data/appointments";
 
 function Appointments() {
-
-  // ==========================
-  // State
-  // ==========================
-
   const [appointmentData, setAppointmentData] = useState(appointments);
 
   const [statusFilter, setStatusFilter] = useState("All");
@@ -32,10 +25,6 @@ function Appointments() {
 
   const appointmentsPerPage = 5;
 
-  // ==========================
-  // Filter Handlers
-  // ==========================
-
   const handleStatusChange = (value) => {
     setStatusFilter(value);
     setCurrentPage(1);
@@ -50,10 +39,6 @@ function Appointments() {
     setSearchQuery(value);
     setCurrentPage(1);
   };
-
-  // ==========================
-  // Modal Handlers
-  // ==========================
 
   const handleViewDetails = (appointment) => {
     setSelectedAppointment(appointment);
@@ -76,112 +61,47 @@ function Appointments() {
   };
 
   const handleSaveStatus = (newStatus) => {
-
     setAppointmentData((previousAppointments) =>
       previousAppointments.map((appointment) =>
         appointment.id === selectedAppointment.id
-          ? {
-              ...appointment,
-              status: newStatus,
-            }
+          ? { ...appointment, status: newStatus }
           : appointment
       )
     );
-
     handleCloseStatusModal();
-
   };
 
-  // ==========================
-  // Filter Appointments
-  // ==========================
-
   const filteredAppointments = appointmentData.filter((appointment) => {
-
-    const matchesStatus =
-      statusFilter === "All" ||
-      appointment.status === statusFilter;
-
-    const matchesDate =
-      selectedDate === "" ||
-      appointment.date === selectedDate;
-
+    const matchesStatus = statusFilter === "All" || appointment.status === statusFilter;
+    const matchesDate = selectedDate === "" || appointment.date === selectedDate;
     const search = searchQuery.toLowerCase();
-
     const matchesSearch =
       appointment.patient.name.toLowerCase().includes(search) ||
       appointment.doctor.name.toLowerCase().includes(search);
 
-    return (
-      matchesStatus &&
-      matchesDate &&
-      matchesSearch
-    );
-
+    return matchesStatus && matchesDate && matchesSearch;
   });
 
-  // ==========================
-  // Statistics
-  // ==========================
-
   const stats = {
-
     total: filteredAppointments.length,
-
-    confirmed: filteredAppointments.filter(
-      (appointment) => appointment.status === "Confirmed"
-    ).length,
-
-    completed: filteredAppointments.filter(
-      (appointment) => appointment.status === "Completed"
-    ).length,
-
-    pending: filteredAppointments.filter(
-      (appointment) => appointment.status === "Pending"
-    ).length,
-
-    cancelled: filteredAppointments.filter(
-      (appointment) => appointment.status === "Cancelled"
-    ).length,
-
+    confirmed: filteredAppointments.filter((a) => a.status === "Confirmed").length,
+    completed: filteredAppointments.filter((a) => a.status === "Completed").length,
+    pending: filteredAppointments.filter((a) => a.status === "Pending").length,
+    cancelled: filteredAppointments.filter((a) => a.status === "Cancelled").length,
   };
 
-  // ==========================
-  // Pagination
-  // ==========================
-
-  const totalPages = Math.ceil(
-    filteredAppointments.length / appointmentsPerPage
-  );
-
+  const totalPages = Math.ceil(filteredAppointments.length / appointmentsPerPage);
   const startIndex = (currentPage - 1) * appointmentsPerPage;
-
-  const paginatedAppointments = filteredAppointments.slice(
-    startIndex,
-    startIndex + appointmentsPerPage
-  );
+  const paginatedAppointments = filteredAppointments.slice(startIndex, startIndex + appointmentsPerPage);
 
   return (
-
-    <div className="appointment-content">
-
-      {/* Header */}
-
-      <div className="appointment-header">
-
-        <div className="appointment-title">
-
-          <h1>Appointments</h1>
-
-          <p>
-            Manage all scheduled appointments and patient status.
-          </p>
-
-        </div>
-
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="text-3xl font-bold text-on-surface mb-1">Appointments</h1>
+        <p className="text-on-surface-variant text-sm">
+          Manage all scheduled appointments and patient status.
+        </p>
       </div>
-
-      {/* Toolbar */}
 
       <AppointmentToolbar
         statusFilter={statusFilter}
@@ -192,36 +112,21 @@ function Appointments() {
         onSearchChange={handleSearchChange}
       />
 
-      {/* Statistics */}
-
       <AppointmentStats stats={stats} />
 
-      {/* Section Header */}
-
-      <div className="appointment-section-header">
-
-        <div>
-
-          <h2>Appointment List</h2>
-
-          <p>
-            Showing <span>{filteredAppointments.length}</span> appointment
-            {filteredAppointments.length !== 1 && "s"}
-          </p>
-
-        </div>
-
+      <div>
+        <h2 className="text-lg font-semibold text-on-surface mb-1">Appointment List</h2>
+        <p className="text-sm text-on-surface-variant">
+          Showing <span className="text-on-surface font-medium">{filteredAppointments.length}</span> appointment
+          {filteredAppointments.length !== 1 && "s"}
+        </p>
       </div>
-
-      {/* Table */}
 
       <AppointmentTable
         appointments={paginatedAppointments}
         onViewDetails={handleViewDetails}
         onUpdateStatus={handleOpenStatusModal}
       />
-
-      {/* Pagination */}
 
       <Pagination
         currentPage={currentPage}
@@ -231,15 +136,11 @@ function Appointments() {
         onPageChange={setCurrentPage}
       />
 
-      {/* Details Modal */}
-
       <AppointmentDetailsModal
         open={openDetailsModal}
         appointment={selectedAppointment}
         onClose={handleCloseDetails}
       />
-
-      {/* Update Status Modal */}
 
       <UpdateAppointmentStatusModal
         open={openStatusModal}
@@ -247,11 +148,8 @@ function Appointments() {
         onClose={handleCloseStatusModal}
         onSave={handleSaveStatus}
       />
-
     </div>
-
   );
-
 }
 
 export default Appointments;

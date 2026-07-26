@@ -1,5 +1,3 @@
-import "./HospitalInfoCard.css";
-
 import {
   BuildingsIcon,
   IdentificationCardIcon,
@@ -20,22 +18,22 @@ function HospitalInfoCard({ hospital }) {
   ];
 
   return (
-    <div className="hospital-info-card">
-      <div className="card-header">
-        <h2>Hospital Information</h2>
+    <div className="bg-surface-container rounded-2xl p-6 border border-outline-variant flex flex-col gap-6">
+      <div className="pb-4 border-b border-outline-variant">
+        <h2 className="text-lg font-semibold text-on-surface">Hospital Information</h2>
       </div>
 
-      <div className="hospital-info-list">
+      <div className="flex flex-col gap-5">
         {hospitalInfo.map((item) => {
           const IconComp = item.icon;
           return (
-            <div className="hospital-info-item" key={item.label}>
-              <div className="hospital-icon">
+            <div key={item.label} className="flex items-start gap-4">
+              <div className="w-11 h-11 rounded-xl bg-secondary-container/40 text-secondary flex items-center justify-center flex-shrink-0">
                 <IconComp size={22} />
               </div>
-              <div className="hospital-details">
-                <small>{item.label}</small>
-                <p>{item.value}</p>
+              <div className="flex flex-col gap-1">
+                <small className="text-on-surface-variant text-xs">{item.label}</small>
+                <p className="text-sm font-semibold text-on-surface break-words">{item.value}</p>
               </div>
             </div>
           );
