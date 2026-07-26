@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import doctorsData from "../../data/doctors";
+// import doctorsData from "../../data/doctors";
 
 import DoctorStats from "../../components/DoctorStats/DoctorStats";
 import DoctorTable from "../../components/DoctorTable/DoctorTable";
@@ -8,7 +8,7 @@ import AddDoctorModal from "../../components/AddDoctorModal/AddDoctorModal";
 import Pagination from "../../components/Pagination/Pagination";
 
 function Doctors() {
-  const [doctors, setDoctors] = useState(doctorsData);
+  //const [doctors, setDoctors] = useState(doctorsData);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
