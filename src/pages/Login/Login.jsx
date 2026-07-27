@@ -29,7 +29,7 @@ function Login() {
             ? "border-outline opacity-100"
             : "border-outline-variant opacity-50"
             }`}
-          style={{ borderRadius: "50% 62% 55% 45% / 68% 36% 64% 52%" }}
+          style={{ borderRadius: "60% 100% 55% 25% / 58% 36% 24% 22%" }}
         />
 
         <div className="relative px-10 py-4">
@@ -51,7 +51,7 @@ function Login() {
               <div className="flex items-center gap-3 bg-surface-container border border-outline-variant rounded-xl px-4 py-3 focus-within:border-primary transition-colors">
                 <AtIcon
                   size={20}
-                  className={`text-outline flex-shrink-0 transition-all duration-300 ${isEmailFocused ? "brightness-150" : ""
+                  className={`text-outline shrink-0 transition-all duration-300 ${isEmailFocused ? "brightness-150" : ""
                     }`}
                 />
                 <input
@@ -76,7 +76,7 @@ function Login() {
                 <EyesIcon
                   size={20}
                   weight="fill"
-                  className={`text-outline flex-shrink-0 transition-all duration-300 ${isPasswordFocused ? "brightness-150 -scale-x-100" : ""
+                  className={`text-outline shrink-0 transition-all duration-300 ${isPasswordFocused ? "brightness-150 -scale-x-100" : ""
                     }`}
                 />
                 <input
