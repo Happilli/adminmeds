@@ -28,7 +28,7 @@ function Pagination({ currentPage, totalPages, pageSize, totalItems, onPageChang
 
       <div className="flex items-center gap-4">
         <button
-          className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-outline-variant disabled:hover:text-on-surface-variant min-w-[120px] justify-center"
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-outline-variant disabled:hover:text-on-surface-variant min-w-30 justify-center"
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
         >
@@ -52,7 +52,7 @@ function Pagination({ currentPage, totalPages, pageSize, totalItems, onPageChang
         </div>
 
         <button
-          className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-outline-variant disabled:hover:text-on-surface-variant min-w-[120px] justify-center"
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-outline-variant disabled:hover:text-on-surface-variant min-w-30 justify-center"
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
         >

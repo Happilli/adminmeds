@@ -47,9 +47,9 @@ function Doctors() {
 
           <button
             onClick={handleOpenModal}
-            className="bg-primary text-on-primary px-5 py-3 rounded-xl text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
+            className="bg-primary cursor-pointer text-on-primary px-5 py-3 rounded-xl text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
           >
-            + Add New Doctor
+            Add New Doctor
           </button>
         </div>
 

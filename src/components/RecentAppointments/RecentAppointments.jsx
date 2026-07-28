@@ -52,7 +52,7 @@ function RecentAppointments() {
                                     </td>
                                     <td className="py-4 px-6 border-t border-outline-variant/50">
                                         <span
-                                            className={`px-3.5 py-1.5 border rounded-xl text-xs font-semibold ${statusStyles[appointment.status.toLowerCase()]
+                                            className={`px-3.5 py-1.5 border rounded text-xs font-semibold ${statusStyles[appointment.status.toLowerCase()]
                                                 }`}
                                         >
                                             {appointment.status.toUpperCase()}
