@@ -24,7 +24,7 @@ function ProfileHeader({ profile, onEdit }) {
         <PencilSimpleIcon size={20} />
       </button>
 
-      <div className="relative w-36 h-36 flex-shrink-0">
+      <div className="relative w-36 h-36 shrink-0">
         <img
           src={
             profile.avatar ||
@@ -47,7 +47,7 @@ function ProfileHeader({ profile, onEdit }) {
         <div className="grid grid-cols-2 gap-5">
           {infoItems.map(({ label, value, icon: Icon }) => (
             <div key={label} className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center shrink-0">
                 <Icon size={20} />
               </div>
               <div>

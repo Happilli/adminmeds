@@ -3,6 +3,7 @@ import {
     Bar,
     XAxis,
     YAxis,
+    CartesianGrid,
     Tooltip,
     ResponsiveContainer,
 } from "recharts";
@@ -19,14 +20,13 @@ function WeeklyChart() {
     ];
 
     return (
-        <div className="bg-surface-container rounded-2xl p-8 border border-outline-variant">
-            <div className="mb-5">
-                <h3 className="text-lg font-semibold text-on-surface mb-1">Weekly Appointments</h3>
-                <p className="text-sm text-on-surface-variant">Number of appointments for current week</p>
+        <div className="flex flex-col gap-4">
+            <div>
+                <h3 className="text-2xl font-semibold text-on-surface">Weekly Appointments</h3>
             </div>
 
-            <div className="flex justify-center h-80">
-                <div className="w-full max-w-2xl h-full">
+            <div className="bg-surface-container rounded-2xl p-8 border border-outline-variant">
+                <div className="w-full h-80">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             data={data}
@@ -34,6 +34,11 @@ function WeeklyChart() {
                             barCategoryGap="10%"
                             margin={{ top: 10, right: 5, left: 0, bottom: 0 }}
                         >
+                            <CartesianGrid
+                                vertical={false}
+                                stroke="var(--color-outline-variant)"
+                                strokeDasharray="3 3"
+                            />
                             <XAxis
                                 dataKey="day"
                                 tick={{ fontSize: 14, fill: "var(--color-on-surface-variant)" }}
@@ -46,13 +51,15 @@ function WeeklyChart() {
                                 tickLine={false}
                             />
                             <Tooltip
+                                cursor={{ fill: "var(--color-surface-container-high)" }}
                                 contentStyle={{
                                     background: "var(--color-surface-container-high)",
                                     border: "1px solid var(--color-outline-variant)",
                                     borderRadius: "10px",
                                     color: "var(--color-on-surface)",
                                 }}
-                                labelStyle={{ color: "var(--color-on-surface)" }}
+                                labelStyle={{ color: "var(--color-on-surface)", marginBottom: 4 }}
+                                itemStyle={{ color: "var(--color-primary)" }}
                             />
                             <Bar dataKey="appointments" fill="var(--color-primary)" radius={[8, 8, 0, 0]} />
                         </BarChart>

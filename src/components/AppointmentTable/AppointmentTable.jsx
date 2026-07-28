@@ -96,7 +96,7 @@ function AppointmentTable({ appointments, onViewDetails, onUpdateStatus }) {
                 {openMenuId === appointment.id && (
                   <div
                     ref={menuRef}
-                    className="absolute right-6 top-full z-20 mt-1 min-w-[170px] bg-surface-container-high border border-outline-variant rounded-xl shadow-lg p-1.5 flex flex-col"
+                    className="absolute right-6 top-full z-20 mt-1 min-w-42.5 bg-surface-container-high border border-outline-variant rounded-xl shadow-lg p-1.5 flex flex-col"
                   >
                     <button
                       className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors text-left"
