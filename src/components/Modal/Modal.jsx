@@ -10,9 +10,7 @@ function Modal({ title, onClose, children, footer, maxWidth = "max-w-lg", showHe
                     <h2 className="text-xl font-semibold text-on-surface px-7 pt-7">{title}</h2>
                 )}
                 <div className="p-7">{children}</div>
-                {footer && <div className="flex justify-end gap-3 px-7 py-5 border-t
-                 border-outline-variant">{footer}
-                </div>}
+                {footer && <div className="flex justify-end gap-3 px-7 pb-7">{footer}</div>}
             </div>
         </div>
     );

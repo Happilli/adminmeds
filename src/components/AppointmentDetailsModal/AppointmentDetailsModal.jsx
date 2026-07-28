@@ -34,15 +34,23 @@ function AppointmentDetailsModal({ open, appointment, onClose }) {
       footer={
         <button
           onClick={onClose}
-          className="px-6 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
+          className="px-6  cursor-pointer py-2.5 rounded-lg bg-primary text-on-primary text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
         >
           Close
         </button>
       }
     >
-      <div className="mb-8">
-        <h3 className="text-base font-semibold text-on-surface mb-4">Patient Information</h3>
-        <div className="grid grid-cols-2 gap-5">
+      <div className="flex flex-col gap-8">
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-semibold text-on-surface">Patient Information</h3>
+          <span
+            className={`inline-block w-fit px-3 py-1 rounded border text-xs font-semibold ${statusStyles[appointment.status.toLowerCase()]}`}
+          >
+            {appointment.status.toUpperCase()}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-5 bg-surface-container-high/50  rounded-xl p-5">
           {patientInfo.map((item) => (
             <div key={item.label} className="flex flex-col gap-1.5">
               <label className="text-xs font-medium text-on-surface-variant">{item.label}</label>
@@ -50,25 +58,16 @@ function AppointmentDetailsModal({ open, appointment, onClose }) {
             </div>
           ))}
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-base font-semibold text-on-surface mb-4">Appointment Information</h3>
-        <div className="grid grid-cols-2 gap-5">
-          {appointmentInfo.map((item) => (
-            <div key={item.label} className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-on-surface-variant">{item.label}</label>
-              <span className="text-sm font-medium text-on-surface">{item.value}</span>
-            </div>
-          ))}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-on-surface-variant">Status</label>
-            <span
-              className={`inline-block w-fit px-3 py-1 rounded-full text-xs font-semibold ${statusStyles[appointment.status.toLowerCase()]
-                }`}
-            >
-              {appointment.status}
-            </span>
+        <div>
+          <h3 className="text-base font-semibold text-on-surface mb-4">Appointment Information</h3>
+          <div className="grid grid-cols-2 gap-5 bg-surface-container-high/50 rounded-xl p-5">
+            {appointmentInfo.map((item) => (
+              <div key={item.label} className="flex flex-col gap-1.5">
+                <label className="text-xs font-medium text-on-surface-variant">{item.label}</label>
+                <span className="text-sm font-medium text-on-surface">{item.value}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -87,7 +87,7 @@ function AppointmentTable({ appointments, onViewDetails, onUpdateStatus }) {
 
               <td className="py-4 px-6 border-t border-outline-variant/50 relative">
                 <button
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                  className="w-9 h-9  cursor-pointer rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
                   onClick={() => handleMenuToggle(appointment.id)}
                 >
                   <DotsThreeVerticalIcon size={20} />
@@ -99,14 +99,14 @@ function AppointmentTable({ appointments, onViewDetails, onUpdateStatus }) {
                     className="absolute right-6 top-full z-20 mt-1 min-w-42.5 bg-surface-container-high border border-outline-variant rounded-xl shadow-lg p-1.5 flex flex-col"
                   >
                     <button
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors text-left"
+                      className="flex items-center cursor-pointer gap-2.5 px-3 py-2.5 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors text-left"
                       onClick={() => handleViewDetailsClick(appointment)}
                     >
                       <EyeIcon size={18} />
                       View Details
                     </button>
                     <button
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors text-left"
+                      className="flex  cursor-pointer items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors text-left"
                       onClick={() => handleUpdateStatusClick(appointment)}
                     >
                       <PencilSimpleIcon size={18} />

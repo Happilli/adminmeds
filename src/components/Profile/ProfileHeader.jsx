@@ -19,7 +19,7 @@ function ProfileHeader({ profile, onEdit }) {
     <div className="relative bg-surface-container rounded-2xl p-8 border border-outline-variant flex items-center gap-8">
       <button
         onClick={onEdit}
-        className="absolute top-6 right-6 w-11 h-11 rounded-full bg-secondary-container/40 text-secondary flex items-center justify-center hover:bg-secondary-container transition-colors"
+        className="absolute top-6 right-6 w-11 h-11 rounded-full bg-secondary-container/40 text-secondary flex items-center justify-center hover:bg-secondary-container transition-colors cursor-pointer"
       >
         <PencilSimpleIcon size={20} />
       </button>
@@ -27,8 +27,7 @@ function ProfileHeader({ profile, onEdit }) {
       <div className="relative w-36 h-36 shrink-0">
         <img
           src={
-            profile.avatar ||
-            "https://ui-avatars.com/api/?name=Hospital+Admin&background=1c2116&color=a2ee4f"
+            profile.avatar 
           }
           alt={profile.full_name}
           className="w-full h-full object-cover rounded-full border-4 border-secondary-container"
@@ -39,10 +38,7 @@ function ProfileHeader({ profile, onEdit }) {
       </div>
 
       <div className="flex-1">
-        <h2 className="text-2xl font-semibold text-on-surface mb-2">{profile.full_name}</h2>
-        <span className="inline-block bg-tertiary-container/20 text-tertiary px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-          {profile.role}
-        </span>
+        <h2 className="text-2xl font-semibold text-on-surface mb-6">{profile.full_name}</h2>
 
         <div className="grid grid-cols-2 gap-5">
           {infoItems.map(({ label, value, icon: Icon }) => (
