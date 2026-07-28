@@ -8,6 +8,7 @@ import Appointments from "../pages/Appointments/Appointments";
 import Profile from "../pages/Profile/Profile";
 
 import HospitalLayout from "../layouts/HospitalLayout/HospitalLayout";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 
 function AppRoutes() {
 
@@ -21,7 +22,7 @@ function AppRoutes() {
           path="/"
           element={<Login />}
         />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route element={<HospitalLayout />}>
 
           <Route
@@ -36,12 +37,12 @@ function AppRoutes() {
           <Route
             path="/appointments"
             element={<Appointments />}
-            />
+          />
 
-            <Route
+          <Route
             path="/profile"
             element={<Profile />}
-            />
+          />
 
         </Route>
 
