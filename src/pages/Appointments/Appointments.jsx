@@ -115,11 +115,7 @@ function Appointments() {
       <AppointmentStats stats={stats} />
 
       <div>
-        <h2 className="text-lg font-semibold text-on-surface mb-1">Appointment List</h2>
-        <p className="text-sm text-on-surface-variant">
-          Showing <span className="text-on-surface font-medium">{filteredAppointments.length}</span> appointment
-          {filteredAppointments.length !== 1 && "s"}
-        </p>
+        <h2 className="text-2xl font-semibold text-on-surface">Appointment List</h2>
       </div>
 
       <AppointmentTable

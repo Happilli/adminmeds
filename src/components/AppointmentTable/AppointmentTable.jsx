@@ -41,12 +41,12 @@ function AppointmentTable({ appointments, onViewDetails, onUpdateStatus }) {
       <table className="w-full border-collapse">
         <thead>
           <tr>
-            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">Time</th>
-            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">Patient</th>
-            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">Doctor</th>
-            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">Reason</th>
-            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">Status</th>
-            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">Action</th>
+            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">TIME</th>
+            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">PATIENT</th>
+            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">DOCTOR</th>
+            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">REASON</th>
+            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">STATUS</th>
+            <th className="text-left py-4 px-6 text-sm font-semibold text-on-surface-variant bg-surface-container-high">ACTION</th>
           </tr>
         </thead>
 
@@ -78,10 +78,10 @@ function AppointmentTable({ appointments, onViewDetails, onUpdateStatus }) {
 
               <td className="py-4 px-6 border-t border-outline-variant/50">
                 <span
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold ${statusStyles[appointment.status.toLowerCase()]
+                  className={`px-3.5 py-1.5 rounded border text-xs font-semibold ${statusStyles[appointment.status.toLowerCase()]
                     }`}
                 >
-                  {appointment.status}
+                  {appointment.status.toUpperCase()}
                 </span>
               </td>
 
