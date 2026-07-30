@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ProfileHeader from "../../components/Profile/ProfileHeader";
 import HospitalInfoCard from "../../components/Profile/HospitalInfoCard";
@@ -8,13 +9,19 @@ import EditProfileModal from "../../components/Profile/Modals/EditProfileModal";
 import ChangePasswordModal from "../../components/Profile/Modals/ChangePasswordModal";
 import HospitalInformationModal from "../../components/Profile/Modals/HospitalInformationModal";
 
+import { changePasswordRequest } from "../../api/authApi";
 import profile from "../../data/profile";
 
 function Profile() {
+  const navigate = useNavigate();
   const [profileData, setProfileData] = useState(profile);
   const [activeModal, setActiveModal] = useState(null);
+  const [passwordError, setPasswordError] = useState("");
 
-  const handleCloseModal = () => setActiveModal(null);
+  const handleCloseModal = () => {
+    setActiveModal(null);
+    setPasswordError("");
+  };
 
   const handleSaveProfile = (updatedProfile) => {
     setProfileData(updatedProfile);
@@ -26,9 +33,24 @@ function Profile() {
     setActiveModal(null);
   };
 
-  const handleSavePassword = (passwordData) => {
-    console.log(passwordData);
-    setActiveModal(null);
+  const handleSavePassword = async (passwordData) => {
+    setPasswordError("");
+    try {
+      const token = localStorage.getItem("token");
+      await changePasswordRequest(
+        {
+          current_password: passwordData.current_password,
+          new_password: passwordData.new_password,
+        },
+        token
+      );
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("email");
+      navigate("/");
+    } catch (err) {
+      setPasswordError(err.message || "Failed to change password.");
+    }
   };
 
   return (
@@ -53,7 +75,11 @@ function Profile() {
       )}
 
       {activeModal === "change_password" && (
-        <ChangePasswordModal onSave={handleSavePassword} onClose={handleCloseModal} />
+        <ChangePasswordModal
+          onSave={handleSavePassword}
+          onClose={handleCloseModal}
+          error={passwordError}
+        />
       )}
 
       {activeModal === "hospital_information" && (

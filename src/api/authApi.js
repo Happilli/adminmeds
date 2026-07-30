@@ -11,3 +11,10 @@ export const forgotPasswordVerify = ({ email, security_answer, new_password }) =
         method: "POST",
         body: { email, security_answer, new_password },
     });
+
+export const changePasswordRequest = ({ current_password, new_password }, token) =>
+    apiFetch("/auth/change-password", {
+        method: "POST",
+        body: { current_password, new_password },
+        token,
+    });
