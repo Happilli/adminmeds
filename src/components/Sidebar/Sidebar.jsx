@@ -5,6 +5,7 @@ import {
   StethoscopeIcon,
 } from "@phosphor-icons/react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { getHospitalDashboard } from "../../api/hospitalApi";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: SquaresFourIcon },
@@ -15,9 +16,12 @@ const navItems = [
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [hospitalName, setHospitalName] = useState("Admin");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("email");
     navigate("/");
   };
 
@@ -30,6 +34,20 @@ function Sidebar() {
     const index = navItems.findIndex((item) => location.pathname.startsWith(item.to));
     setActiveIndex(index);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const fetchHospitalName = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const data = await getHospitalDashboard(token);
+        setHospitalName(data.name);
+      } catch {
+        setHospitalName("Admin");
+      }
+    };
+
+    fetchHospitalName();
+  }, []);
 
   const isProfileActive = location.pathname.startsWith("/profile");
 
@@ -90,7 +108,7 @@ function Sidebar() {
             <img src="/logo.png" alt="Admin" className="w-full h-full object-cover" />
           </div>
           <div className="min-w-0 text-left">
-            <h4 className="text-sm font-semibold text-on-surface leading-tight truncate">Admin</h4>
+            <h4 className="text-sm font-semibold text-on-surface leading-tight truncate">{hospitalName}</h4>
             <p className="text-xs text-on-surface-variant truncate">Administrator</p>
           </div>
         </button>
