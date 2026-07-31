@@ -21,11 +21,11 @@ function ProfileHeader({ profile, onEdit, onImageUpload }) {
     event.target.value = "";
   };
 
-  const backendUrl = import.meta.env.VITE_API_URL.replace("/api/v1", "");
+  const backendUrl = import.meta.env.VITE_API_URL;
 
   const imageUrl = profile.image_url
     ? `${backendUrl}${profile.image_url}`
-    : "https://placehold.co/200x200?text=Hospital";
+    : "hospital image";
 
   const infoItems = [
     {
