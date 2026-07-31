@@ -1,42 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ProfileHeader from "../../components/Profile/ProfileHeader";
 import HospitalInfoCard from "../../components/Profile/HospitalInfoCard";
 import SecurityCard from "../../components/Profile/SecurityCard";
 
-import EditProfileModal from "../../components/Profile/Modals/EditProfileModal";
 import ChangePasswordModal from "../../components/Profile/Modals/ChangePasswordModal";
 import HospitalInformationModal from "../../components/Profile/Modals/HospitalInformationModal";
 
+import { getProfile, updateProfile } from "../../api/profileApi";
 import { changePasswordRequest } from "../../api/authApi";
-import profile from "../../data/profile";
+import { uploadHospitalImage } from "../../api/profileApi";  
 
 function Profile() {
   const navigate = useNavigate();
-  const [profileData, setProfileData] = useState(profile);
+
+  const [profileData, setProfileData] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [passwordError, setPasswordError] = useState("");
+
+  const loadProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const data = await getProfile(token);
+
+      setProfileData(data);
+    } catch (err) {
+      console.error("Failed to load profile:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadProfile();
+  }, []);
 
   const handleCloseModal = () => {
     setActiveModal(null);
     setPasswordError("");
   };
 
-  const handleSaveProfile = (updatedProfile) => {
-    setProfileData(updatedProfile);
-    setActiveModal(null);
+  const handleSaveHospital = async (updatedHospital) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const updated = await updateProfile(updatedHospital, token);
+
+      setProfileData(updated);
+
+      setActiveModal(null);
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
   };
 
-  const handleSaveHospital = (updatedHospital) => {
-    setProfileData((prev) => ({ ...prev, hospital: updatedHospital }));
-    setActiveModal(null);
-  };
 
   const handleSavePassword = async (passwordData) => {
     setPasswordError("");
+
     try {
       const token = localStorage.getItem("token");
+
       await changePasswordRequest(
         {
           current_password: passwordData.current_password,
@@ -44,34 +69,76 @@ function Profile() {
         },
         token
       );
+
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       localStorage.removeItem("email");
+
       navigate("/");
     } catch (err) {
       setPasswordError(err.message || "Failed to change password.");
     }
   };
+  const handleImageUpload = async (file) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const updatedHospital = await uploadHospitalImage(file, token);
+
+      setProfileData(updatedHospital);
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "Failed to upload image.");
+    }
+  };
+
+  if (!profileData) {
+    return (
+      <div className="flex items-center justify-center h-80 text-on-surface-variant">
+        Loading hospital profile...
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
+
       <div>
-        <h1 className="text-3xl font-bold text-on-surface mb-1">Admin Profile</h1>
-        <p className="text-on-surface-variant text-sm">Manage your account and hospital settings.</p>
+        <h1 className="text-3xl font-bold text-on-surface">
+          Hospital Profile
+        </h1>
+
+        <p className="text-sm text-on-surface-variant mt-1">
+          Manage your hospital information and account security.
+        </p>
       </div>
 
-      <ProfileHeader profile={profileData} onEdit={() => setActiveModal("edit_profile")} />
+      <ProfileHeader
+        profile={profileData}
+        onEdit={() => setActiveModal("hospital_information")}
+        onImageUpload={handleImageUpload}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
-        <HospitalInfoCard hospital={profileData.hospital} onEdit={() => setActiveModal("hospital_information")} />
+
+        <HospitalInfoCard
+          hospital={profileData}
+          onEdit={() => setActiveModal("hospital_information")}
+        />
+
         <SecurityCard
-          security={profileData.security}
+          security={profileData}
           onChangePassword={() => setActiveModal("change_password")}
         />
+
       </div>
 
-      {activeModal === "edit_profile" && (
-        <EditProfileModal profile={profileData} onSave={handleSaveProfile} onClose={handleCloseModal} />
+      {activeModal === "hospital_information" && (
+        <HospitalInformationModal
+          hospital={profileData}
+          onSave={handleSaveHospital}
+          onClose={handleCloseModal}
+        />
       )}
 
       {activeModal === "change_password" && (
@@ -82,13 +149,6 @@ function Profile() {
         />
       )}
 
-      {activeModal === "hospital_information" && (
-        <HospitalInformationModal
-          hospital={profileData.hospital}
-          onSave={handleSaveHospital}
-          onClose={handleCloseModal}
-        />
-      )}
     </div>
   );
 }
