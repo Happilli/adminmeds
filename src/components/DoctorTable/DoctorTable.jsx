@@ -6,8 +6,8 @@ import {
 } from "@phosphor-icons/react";
 
 const statusStyles = {
-  active: "bg-tertiary-container/20 text-tertiary",
-  inactive: "bg-error-container/20 text-error",
+  verified: "bg-tertiary-container/20 text-tertiary",
+  unverified: "bg-error-container/20 text-error",
 };
 
 function DoctorTable({ doctors, search, setSearch, onDelete, onToggleStatus }) {
@@ -54,51 +54,57 @@ function DoctorTable({ doctors, search, setSearch, onDelete, onToggleStatus }) {
             </thead>
 
             <tbody>
-              {doctors.map((doctor) => (
-                <tr key={doctor.id} className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="py-4 px-6 border-t border-outline-variant/50">
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <h4 className="text-sm font-semibold text-on-surface">{doctor.name}</h4>
-                        <p className="text-xs text-on-surface-variant mt-0.5">{doctor.email}</p>
+              {doctors.map((doctor) => {
+                const statusKey = doctor.is_verified ? "verified" : "unverified";
+
+                return (
+                  <tr key={doctor.id} className="hover:bg-surface-container-high/50 transition-colors">
+                    <td className="py-4 px-6 border-t border-outline-variant/50">
+                      <div className="flex items-center gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-on-surface">{doctor.name}</h4>
+                          <p className="text-xs text-on-surface-variant mt-0.5">{doctor.department}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-sm text-on-surface border-t border-outline-variant/50">{doctor.specialization}</td>
-                  <td className="py-4 px-6 text-sm text-on-surface border-t border-outline-variant/50">{doctor.experience} yrs</td>
-                  <td className="py-4 px-6 text-sm text-on-surface border-t border-outline-variant/50">{doctor.phone}</td>
-                  <td className="py-4 px-6 border-t border-outline-variant/50">
-                    <span className={`px-3.5 py-1.5 rounded border text-xs font-semibold ${statusStyles[doctor.status.toLowerCase()]}`}>
-                      {doctor.status.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="py-4 px-6 border-t border-outline-variant/50">
-                    <div className="flex items-center gap-2">
-                      <button
-                        title="Toggle active status"
-                        onClick={() => onToggleStatus(doctor.id)}
-                        className="w-9 h-9 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center hover:-translate-y-0.5 transition-transform"
-                      >
-                        <EyeIcon size={18} />
-                      </button>
-                      <button
-                        title="Edit (coming soon)"
-                        disabled
-                        className="w-9 h-9 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center opacity-40 cursor-not-allowed"
-                      >
-                        <PencilSimpleIcon size={18} />
-                      </button>
-                      <button
-                        title="Delete"
-                        onClick={() => onDelete(doctor.id)}
-                        className="w-9 h-9 rounded-lg bg-error-container/20 text-error flex items-center justify-center hover:-translate-y-0.5 transition-transform"
-                      >
-                        <TrashIcon size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="py-4 px-6 text-sm text-on-surface border-t border-outline-variant/50">{doctor.speciality}</td>
+                    <td className="py-4 px-6 text-sm text-on-surface border-t border-outline-variant/50">
+                      {doctor.years_experience != null ? `${doctor.years_experience} yrs` : "—"}
+                    </td>
+                    <td className="py-4 px-6 text-sm text-on-surface border-t border-outline-variant/50">{doctor.phone}</td>
+                    <td className="py-4 px-6 border-t border-outline-variant/50">
+                      <span className={`px-3.5 py-1.5 rounded border text-xs font-semibold ${statusStyles[statusKey]}`}>
+                        {statusKey.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6 border-t border-outline-variant/50">
+                      <div className="flex items-center gap-2">
+                        <button
+                          title="View"
+                          disabled
+                          className="w-9 h-9 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center opacity-40 cursor-not-allowed"
+                        >
+                          <EyeIcon size={18} />
+                        </button>
+                        <button
+                          title="Edit (coming soon)"
+                          disabled
+                          className="w-9 h-9 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center opacity-40 cursor-not-allowed"
+                        >
+                          <PencilSimpleIcon size={18} />
+                        </button>
+                        <button
+                          title="Delete (coming soon)"
+                          disabled
+                          className="w-9 h-9 rounded-lg bg-error-container/20 text-error flex items-center justify-center opacity-40 cursor-not-allowed"
+                        >
+                          <TrashIcon size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

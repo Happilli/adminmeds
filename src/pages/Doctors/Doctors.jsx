@@ -5,7 +5,7 @@ import DoctorTable from "../../components/DoctorTable/DoctorTable";
 import AddDoctorModal from "../../components/AddDoctorModal/AddDoctorModal";
 import Pagination from "../../components/Pagination/Pagination";
 
-import { getDoctors, registerDoctor } from "../../api/doctorapi";
+import { getDoctors, registerDoctor } from "../../api/doctorApi.js";
 
 function Doctors() {
   const [doctors, setDoctors] = useState([]);
