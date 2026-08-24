@@ -231,7 +231,7 @@ function AddDoctorModal({ onSave, onClose }) {
               <div className="flex items-center gap-5">
 
                 <label
-                  className="group relative w-32 h-32 overflow-hidden border-4 border-secondary-container cursor-pointer flex-shrink-0"
+                  className="group relative w-32 h-32 overflow-hidden border-4 border-secondary-container cursor-pointer shrink-0"
                   style={{
                     borderRadius:
                       "46% 54% 61% 39% / 55% 43% 57% 45%",

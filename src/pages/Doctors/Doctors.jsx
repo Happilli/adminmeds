@@ -206,7 +206,7 @@ function Doctors() {
 
         {/* Stats */}
 
-        <DoctorStats />
+     <DoctorStats doctors={doctors} />
 
         {/* Table */}
 
