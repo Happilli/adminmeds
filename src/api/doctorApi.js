@@ -17,3 +17,9 @@ export async function registerDoctor(formData, token) {
     isForm: true,
   });
 }
+// Get a single doctor
+export async function getDoctor(doctorId, token) {
+  return apiFetch(`/doctors/${doctorId}`, {
+    token,
+  });
+}

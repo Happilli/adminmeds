@@ -4,8 +4,13 @@ import DoctorStats from "../../components/DoctorStats/DoctorStats";
 import DoctorTable from "../../components/DoctorTable/DoctorTable";
 import AddDoctorModal from "../../components/AddDoctorModal/AddDoctorModal";
 import Pagination from "../../components/Pagination/Pagination";
+import DoctorDetailsModal from "../../components/DoctorDetailsModal/DoctorDetailsModal";
 
-import { getDoctors, registerDoctor } from "../../api/doctorApi.js";
+import {
+  getDoctors,
+  getDoctor,
+  registerDoctor,
+} from "../../api/doctorApi.js";
 
 function Doctors() {
   const [doctors, setDoctors] = useState([]);
@@ -14,9 +19,11 @@ function Doctors() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [openModal, setOpenModal] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [viewLoading, setViewLoading] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -79,10 +86,12 @@ function Doctors() {
       formData.append("speciality", doctorData.speciality);
       formData.append("bio", doctorData.bio);
       formData.append("address", doctorData.address);
+
       formData.append(
         "license_number",
         doctorData.license_number
       );
+
       formData.append(
         "years_experience",
         doctorData.years_experience
@@ -119,7 +128,10 @@ function Doctors() {
        */
       setCurrentPage(1);
     } catch (err) {
-      console.error("Failed to register doctor:", err);
+      console.error(
+        "Failed to register doctor:",
+        err
+      );
 
       setError(
         err.message || "Failed to register doctor."
@@ -130,21 +142,66 @@ function Doctors() {
   };
 
   // --------------------------------
+  // View doctor
+  // --------------------------------
+
+  const handleViewDoctor = async (doctor) => {
+    try {
+      setViewLoading(true);
+      setError("");
+
+      console.log(
+        "Loading doctor details for ID:",
+        doctor.id
+      );
+
+      const data = await getDoctor(
+        doctor.id,
+        token
+      );
+
+      console.log(
+        "Doctor details received:",
+        data
+      );
+
+      setSelectedDoctor(data);
+    } catch (err) {
+      console.error(
+        "Failed to load doctor details:",
+        err
+      );
+
+      setError(
+        err.message ||
+          "Failed to load doctor details."
+      );
+    } finally {
+      setViewLoading(false);
+    }
+  };
+
+  // --------------------------------
   // Search
   // --------------------------------
 
-  const filteredDoctors = doctors.filter((doctor) => {
-    const name = doctor.name?.toLowerCase() || "";
-    const speciality =
-      doctor.speciality?.toLowerCase() || "";
+  const filteredDoctors = doctors.filter(
+    (doctor) => {
+      const name =
+        doctor.name?.toLowerCase() || "";
 
-    const searchValue = search.toLowerCase();
+      const speciality =
+        doctor.speciality?.toLowerCase() || "";
 
-    return (
-      name.includes(searchValue) ||
-      speciality.includes(searchValue)
-    );
-  });
+      const searchValue =
+        search.toLowerCase();
+
+      return (
+        name.includes(searchValue) ||
+        speciality.includes(searchValue)
+      );
+    }
+  );
 
   // --------------------------------
   // Pagination
@@ -160,10 +217,11 @@ function Doctors() {
   const indexOfFirstDoctor =
     indexOfLastDoctor - doctorsPerPage;
 
-  const currentDoctors = filteredDoctors.slice(
-    indexOfFirstDoctor,
-    indexOfLastDoctor
-  );
+  const currentDoctors =
+    filteredDoctors.slice(
+      indexOfFirstDoctor,
+      indexOfLastDoctor
+    );
 
   // --------------------------------
   // Render
@@ -189,7 +247,8 @@ function Doctors() {
 
           <button
             onClick={() => setOpenModal(true)}
-            className="bg-primary cursor-pointer text-on-primary px-5 py-3 rounded-xl text-sm font-semibold hover:bg-primary-fixed-dim transition-colors"
+            disabled={saving}
+            className="bg-primary cursor-pointer text-on-primary px-5 py-3 rounded-xl text-sm font-semibold hover:bg-primary-fixed-dim transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add New Doctor
           </button>
@@ -206,7 +265,7 @@ function Doctors() {
 
         {/* Stats */}
 
-     <DoctorStats doctors={doctors} />
+        <DoctorStats doctors={doctors} />
 
         {/* Table */}
 
@@ -219,6 +278,7 @@ function Doctors() {
             doctors={currentDoctors}
             search={search}
             setSearch={setSearch}
+            onView={handleViewDoctor}
           />
         )}
 
@@ -236,13 +296,34 @@ function Doctors() {
 
       </div>
 
-      {/* Modal */}
+      {/* Add Doctor Modal */}
 
       {openModal && (
         <AddDoctorModal
           onClose={() => setOpenModal(false)}
           onSave={handleSaveDoctor}
         />
+      )}
+
+      {/* View Doctor Modal */}
+
+      {selectedDoctor && (
+        <DoctorDetailsModal
+          doctor={selectedDoctor}
+          onClose={() => setSelectedDoctor(null)}
+        />
+      )}
+
+      {/* View Loading */}
+
+      {viewLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+          <div className="rounded-xl bg-surface-container px-6 py-4 shadow-lg">
+            <p className="text-sm text-on-surface">
+              Loading doctor details...
+            </p>
+          </div>
+        </div>
       )}
     </>
   );

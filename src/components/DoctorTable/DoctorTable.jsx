@@ -10,7 +10,7 @@ const statusStyles = {
   unverified: "bg-error-container/20 text-error",
 };
 
-function DoctorTable({ doctors, search, setSearch, onDelete, onToggleStatus }) {
+function DoctorTable({ doctors, search, setSearch, onDelete, onToggleStatus, onView }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -80,9 +80,10 @@ function DoctorTable({ doctors, search, setSearch, onDelete, onToggleStatus }) {
                     <td className="py-4 px-6 border-t border-outline-variant/50">
                       <div className="flex items-center gap-2">
                         <button
+                          type="button"
                           title="View"
-                          disabled
-                          className="w-9 h-9 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center opacity-40 cursor-not-allowed"
+                          onClick={() => onView(doctor)}
+                          className="w-9 h-9 rounded-lg bg-secondary-container/40 text-secondary flex items-center justify-center hover:bg-secondary-container transition-colors cursor-pointer"
                         >
                           <EyeIcon size={18} />
                         </button>
