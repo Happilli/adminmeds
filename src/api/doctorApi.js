@@ -3,11 +3,10 @@ import { apiFetch } from "./client";
 
 // Get doctors for the logged-in hospital
 export async function getDoctors(token) {
-  return apiFetch("/doctors/", {
+  return apiFetch("/doctors/mine", {
     token,
   });
 }
-
 
 // Register a new doctor
 export async function registerDoctor(formData, token) {
