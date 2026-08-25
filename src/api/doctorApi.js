@@ -1,6 +1,5 @@
 import { apiFetch } from "./client";
 
-
 // Get doctors for the logged-in hospital
 export async function getDoctors(token) {
   return apiFetch("/doctors/mine", {
@@ -17,9 +16,34 @@ export async function registerDoctor(formData, token) {
     isForm: true,
   });
 }
+
 // Get a single doctor
 export async function getDoctor(doctorId, token) {
   return apiFetch(`/doctors/${doctorId}`, {
+    token,
+  });
+}
+
+// Update doctor from Hospital Admin
+export async function updateDoctor(
+  doctorId,
+  data,
+  token
+) {
+  return apiFetch(`/doctors/${doctorId}`, {
+    method: "PATCH",
+    body: data,
+    token,
+  });
+}
+
+// Delete doctor from Hospital Admin
+export async function deleteDoctor(
+  doctorId,
+  token
+) {
+  return apiFetch(`/doctors/${doctorId}`, {
+    method: "DELETE",
     token,
   });
 }

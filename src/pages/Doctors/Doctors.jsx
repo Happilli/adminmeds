@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import DoctorStats from "../../components/DoctorStats/DoctorStats";
 import DoctorTable from "../../components/DoctorTable/DoctorTable";
 import AddDoctorModal from "../../components/AddDoctorModal/AddDoctorModal";
-import Pagination from "../../components/Pagination/Pagination";
 import DoctorDetailsModal from "../../components/DoctorDetailsModal/DoctorDetailsModal";
+import EditDoctorModal from "../../components/EditDoctorModal/EditDoctorModal";
+import Pagination from "../../components/Pagination/Pagination";
 
 import {
   getDoctors,
   getDoctor,
   registerDoctor,
+  updateDoctor,
+  deleteDoctor,
 } from "../../api/doctorApi.js";
 
 function Doctors() {
@@ -18,12 +21,22 @@ function Doctors() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Add doctor modal
   const [openModal, setOpenModal] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
+  // General loading/saving
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  // View doctor
   const [viewLoading, setViewLoading] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+  // Edit doctor
+  const [editDoctor, setEditDoctor] = useState(null);
+  const [editSaving, setEditSaving] = useState(false);
+
+  const [deleteSaving, setDeleteSaving] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -32,8 +45,7 @@ function Doctors() {
   /*
    * Get the FastAPI JWT.
    *
-   * Use the same storage key that your Login.jsx
-   * currently uses.
+   * Use the same storage key that Login.jsx currently uses.
    */
   const token = localStorage.getItem("token");
 
@@ -74,7 +86,8 @@ function Doctors() {
       setError("");
 
       /*
-       * FastAPI expects multipart/form-data.
+       * FastAPI expects multipart/form-data
+       * for doctor registration.
        */
       const formData = new FormData();
 
@@ -119,7 +132,7 @@ function Doctors() {
       setOpenModal(false);
 
       /*
-       * Get the latest doctors from the database.
+       * Reload doctors from database.
        */
       await loadDoctors();
 
@@ -165,6 +178,11 @@ function Doctors() {
         data
       );
 
+      console.log(
+        "Full doctor response:",
+        JSON.stringify(data, null, 2)
+      );
+
       setSelectedDoctor(data);
     } catch (err) {
       console.error(
@@ -180,6 +198,147 @@ function Doctors() {
       setViewLoading(false);
     }
   };
+
+  // --------------------------------
+  // Open edit doctor
+  // --------------------------------
+
+  const handleEditDoctor = (doctor) => {
+    setError("");
+
+    console.log(
+      "Opening edit doctor:",
+      doctor.id
+    );
+
+    setEditDoctor(doctor);
+  };
+
+  // --------------------------------
+  // Save edited doctor
+  // --------------------------------
+
+  const handleUpdateDoctor = async (doctorData) => {
+    try {
+      setEditSaving(true);
+      setError("");
+
+      console.log(
+        "Updating doctor:",
+        editDoctor.id
+      );
+
+      console.log(
+        "Updated doctor data:",
+        doctorData
+      );
+
+      /*
+       * DoctorAdminUpdate expects JSON.
+       *
+       * This is different from registration,
+       * which uses multipart/form-data.
+       */
+      const response = await updateDoctor(
+        editDoctor.id,
+        doctorData,
+        token
+      );
+
+      console.log(
+        "Doctor updated successfully:",
+        response
+      );
+
+      /*
+       * Close edit modal.
+       */
+      setEditDoctor(null);
+
+      /*
+       * Reload the latest data from backend.
+       */
+      await loadDoctors();
+    } catch (err) {
+      console.error(
+        "Failed to update doctor:",
+        err
+      );
+
+      setError(
+        err.message ||
+          "Failed to update doctor."
+      );
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+
+  // --------------------------------
+// Delete doctor
+// --------------------------------
+
+const handleDeleteDoctor = async (doctor) => {
+  const confirmed = window.confirm(
+    `Are you sure you want to delete ${doctor.name}?`
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    setDeleteSaving(true);
+    setError("");
+
+    console.log(
+      "Deleting doctor:",
+      doctor.id
+    );
+
+    const response = await deleteDoctor(
+      doctor.id,
+      token
+    );
+
+    console.log(
+      "Doctor deleted successfully:",
+      response
+    );
+
+    /*
+     * Reload doctors from backend
+     * so the table reflects the database.
+     */
+    await loadDoctors();
+
+    /*
+     * If deletion removed the last item
+     * from the current page, go back one page.
+     */
+    if (
+      currentDoctors.length === 1 &&
+      currentPage > 1
+    ) {
+      setCurrentPage((page) => page - 1);
+    }
+
+  } catch (err) {
+    console.error(
+      "Failed to delete doctor:",
+      err
+    );
+
+    setError(
+      err.message ||
+        "Failed to delete doctor."
+    );
+  } finally {
+    setDeleteSaving(false);
+  }
+};
+
 
   // --------------------------------
   // Search
@@ -250,7 +409,9 @@ function Doctors() {
             disabled={saving}
             className="bg-primary cursor-pointer text-on-primary px-5 py-3 rounded-xl text-sm font-semibold hover:bg-primary-fixed-dim transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Add New Doctor
+            {saving
+              ? "Adding Doctor..."
+              : "Add New Doctor"}
           </button>
 
         </div>
@@ -279,6 +440,8 @@ function Doctors() {
             search={search}
             setSearch={setSearch}
             onView={handleViewDoctor}
+            onEdit={handleEditDoctor}
+            onDelete={handleDeleteDoctor}
           />
         )}
 
@@ -296,7 +459,9 @@ function Doctors() {
 
       </div>
 
-      {/* Add Doctor Modal */}
+      {/* --------------------------------
+          Add Doctor Modal
+      -------------------------------- */}
 
       {openModal && (
         <AddDoctorModal
@@ -305,7 +470,9 @@ function Doctors() {
         />
       )}
 
-      {/* View Doctor Modal */}
+      {/* --------------------------------
+          View Doctor Modal
+      -------------------------------- */}
 
       {selectedDoctor && (
         <DoctorDetailsModal
@@ -314,7 +481,9 @@ function Doctors() {
         />
       )}
 
-      {/* View Loading */}
+      {/* --------------------------------
+          View Loading
+      -------------------------------- */}
 
       {viewLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
@@ -325,6 +494,20 @@ function Doctors() {
           </div>
         </div>
       )}
+
+      {/* --------------------------------
+          Edit Doctor Modal
+      -------------------------------- */}
+
+      {editDoctor && (
+        <EditDoctorModal
+          doctor={editDoctor}
+          onClose={() => setEditDoctor(null)}
+          onSave={handleUpdateDoctor}
+          saving={editSaving}
+        />
+      )}
+
     </>
   );
 }
