@@ -233,12 +233,13 @@ function Doctors() {
         doctorData
       );
 
-      /*
-       * DoctorAdminUpdate expects JSON.
-       *
-       * This is different from registration,
-       * which uses multipart/form-data.
-       */
+    /*
+ * Hospital-side doctor update expects JSON
+ * (backend: DoctorHospitalAdminUpdate).
+ *
+ * This is different from registration,
+ * which uses multipart/form-data.
+ */
       const response = await updateDoctor(
         editDoctor.id,
         doctorData,
