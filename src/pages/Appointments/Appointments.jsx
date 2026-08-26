@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect,useState } from "react";
 
 import AppointmentToolbar from "../../components/AppointmentToolbar/AppointmentToolbar";
 import AppointmentStats from "../../components/AppointmentStats/AppointmentStats";
@@ -7,10 +7,10 @@ import Pagination from "../../components/Pagination/Pagination";
 import AppointmentDetailsModal from "../../components/AppointmentDetailsModal/AppointmentDetailsModal";
 import UpdateAppointmentStatusModal from "../../components/UpdateAppointmentStatusModal/UpdateAppointmentStatusModal";
 
-import appointments from "../../data/appointments";
+import { getHospitalAppointments } from "../../api/appointmentApi";
 
 function Appointments() {
-  const [appointmentData, setAppointmentData] = useState(appointments);
+  const [appointmentData, setAppointmentData] = useState([]);
 
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
@@ -24,6 +24,54 @@ function Appointments() {
   const [openStatusModal, setOpenStatusModal] = useState(false);
 
   const appointmentsPerPage = 5;
+
+  useEffect(() => {
+  const loadAppointments = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const data = await getHospitalAppointments(token);
+
+      const formattedAppointments = data.map((appointment) => ({
+        id: appointment.id,
+
+        date: appointment.appointment_at.split("T")[0],
+
+        time: new Date(appointment.appointment_at).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+
+        patient: {
+          id: appointment.patient.id,
+          name: appointment.patient.name,
+          phone: appointment.patient.phone,
+        },
+
+        doctor: {
+          id: appointment.doctor.id,
+          name: appointment.doctor.name,
+          department: appointment.doctor.department,
+          specialization: appointment.doctor.speciality,
+        },
+
+        hospital_id: appointment.hospital_id,
+
+        reason: appointment.notes,
+
+        status:
+          appointment.status.charAt(0).toUpperCase() +
+          appointment.status.slice(1),
+      }));
+
+      setAppointmentData(formattedAppointments);
+    } catch (error) {
+      console.error("Failed to load appointments:", error);
+    }
+  };
+
+  loadAppointments();
+}, []);
 
   const handleStatusChange = (value) => {
     setStatusFilter(value);
@@ -41,8 +89,14 @@ function Appointments() {
   };
 
   const handleViewDetails = (appointment) => {
-    setSelectedAppointment(appointment);
-    setOpenDetailsModal(true);
+    // setSelectedAppointment(appointment);
+    // setOpenDetailsModal(true);
+      console.log("FULL APPOINTMENT:", appointment);
+  console.log("DOCTOR:", appointment.doctor);
+  console.log("APPOINTMENT AT:", appointment.appointment_at);
+
+  setSelectedAppointment(appointment);
+  setOpenDetailsModal(true);
   };
 
   const handleCloseDetails = () => {
@@ -121,7 +175,6 @@ function Appointments() {
       <AppointmentTable
         appointments={paginatedAppointments}
         onViewDetails={handleViewDetails}
-        onUpdateStatus={handleOpenStatusModal}
       />
 
       <Pagination
