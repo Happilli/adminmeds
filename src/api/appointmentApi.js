@@ -19,3 +19,9 @@ export async function getHospitalAppointments(token, filters = {}) {
 
   return apiFetch(path, { token });
 }
+
+export async function getHospitalWeeklyAppointments(token) {
+  return apiFetch("/appointments/hospital/weekly", {
+    token,
+  });
+}
