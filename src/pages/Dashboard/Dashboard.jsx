@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import StatCard from "../../components/Statcard/StatCard";
 import WeeklyChart from "../../components/WeeklyChart/WeeklyChart";
 import RecentAppointments from "../../components/RecentAppointments/RecentAppointments";
-import { getHospitalDashboard } from "../../api/hospitalApi";
+import { getHospitalDashboard,getHospitalAppointments } from "../../api/hospitalApi";
 import {
   StethoscopeIcon,
   UsersThreeIcon,
@@ -21,6 +21,7 @@ function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [appointments, setAppointments] = useState([]);
 
   const today = new Date().toLocaleDateString(undefined, {
     weekday: "long",
@@ -32,11 +33,18 @@ function Dashboard() {
     const fetchDashboard = async () => {
       setLoading(true);
       setError("");
-      try {
-        const token = localStorage.getItem("token");
-        const data = await getHospitalDashboard(token);
-        setDashboardData(data);
-      } catch (err) {
+          try {
+      const token = localStorage.getItem("token");
+
+      const [dashboard, appointmentsData] = await Promise.all([
+        getHospitalDashboard(token),
+        getHospitalAppointments(token),
+      ]);
+
+      setDashboardData(dashboard);
+      setAppointments(appointmentsData);
+    }
+      catch (err) {
         setError(err.message || "Failed to load dashboard data.");
       } finally {
         setLoading(false);
@@ -114,7 +122,7 @@ function Dashboard() {
       </section>
 
       <section aria-label="Recent appointments">
-        <RecentAppointments />
+        <RecentAppointments appointments={appointments} />
       </section>
     </div>
   );
