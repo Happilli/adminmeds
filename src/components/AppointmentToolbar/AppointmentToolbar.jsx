@@ -11,7 +11,7 @@ function AppointmentToolbar({
   return (
     <div className="flex flex-wrap justify-between items-center gap-4">
       <div className="flex items-center gap-2.5 bg-surface-container border border-outline-variant rounded-xl px-4 h-12 w-full max-w-sm focus-within:border-primary transition-colors">
-        <MagnifyingGlassIcon size={20} className="text-outline flex-shrink-0" />
+        <MagnifyingGlassIcon size={20} className="text-outline shrink-0" />
         <input
           type="text"
           placeholder="Search by patient or doctor..."
@@ -35,7 +35,7 @@ function AppointmentToolbar({
         </select>
 
         <div className="flex items-center gap-2.5 w-48 h-12 border border-outline-variant rounded-xl bg-surface-container px-4 focus-within:border-primary transition-colors">
-          <CalendarIcon size={20} className="text-outline flex-shrink-0" />
+          <CalendarIcon size={20} className="text-outline shrink-0" />
           <input
             type="date"
             value={selectedDate}
