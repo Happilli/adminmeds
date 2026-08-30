@@ -6,6 +6,7 @@ import {
 } from "@phosphor-icons/react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { getHospitalDashboard } from "../../api/hospitalApi";
+import { notificationSocket } from "../../api/wsClient";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: SquaresFourIcon },
@@ -19,10 +20,11 @@ function Sidebar() {
   const [hospitalName, setHospitalName] = useState("Admin");
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("email");
-    navigate("/");
+  notificationSocket.disconnect();
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  navigate("/");
   };
 
   const ITEM_HEIGHT = 46;
