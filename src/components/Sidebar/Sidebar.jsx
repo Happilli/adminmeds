@@ -3,6 +3,7 @@ import {
   CalendarBlankIcon,
   SquaresFourIcon,
   StethoscopeIcon,
+  PillIcon
 } from "@phosphor-icons/react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { getHospitalDashboard } from "../../api/hospitalApi";
@@ -12,6 +13,7 @@ const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: SquaresFourIcon },
   { to: "/doctors", label: "Doctors", icon: StethoscopeIcon },
   { to: "/appointments", label: "Appointments", icon: CalendarBlankIcon },
+  { to: "/dispense", label: "Dispense", icon: PillIcon },
 ];
 
 function Sidebar() {
