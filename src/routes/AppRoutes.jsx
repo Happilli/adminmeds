@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "../pages/Login/Login";
 
+import Dispense from "../pages/Dispense/Dispense";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Doctors from "../pages/Doctors/Doctors";
 import Appointments from "../pages/Appointments/Appointments";
@@ -57,6 +58,7 @@ function AppRoutes() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/appointments" element={<Appointments />} />
+          <Route path="/dispense" element={<Dispense />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
 
